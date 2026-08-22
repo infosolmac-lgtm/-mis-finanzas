@@ -1,1 +1,1 @@
-Mis Finanzas v5 — actualización de persistencia y actualización de archivos sin quedar atrapados en caché antigua.
+# Mis Finanzas v6 — corrección del historial de movimientos.

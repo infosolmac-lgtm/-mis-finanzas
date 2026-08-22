@@ -143,11 +143,19 @@ function renderMonth(which,d){
  list.querySelectorAll("[data-pay]").forEach(b=>b.onclick=()=>payOccurrence(b.dataset.pay));
 }
 function renderHistory(){
- const h=document.getElementById("history");h.innerHTML="";
- if(!state.history.length){h.innerHTML='<div class="muted" style="font-size:14px">No hay movimientos registrados</div>';return}
- document.getElementById("historyCount").textContent=state.history.length+" movimientos";
- state.history.slice().reverse().slice(0,10).forEach(x=>{
-   h.insertAdjacentHTML("beforeend",`<div class="historyitem"><span><b>${x.concept}</b><br><small class="muted">${x.date}</small></span><b class="${x.kind==="income"?"positive":"negative"}">${x.kind==="income"?"+":"−"} ${euro(x.eur)}</b></div>`);
+ const h=document.getElementById("history");
+ const count=document.getElementById("historyCount");
+ h.innerHTML="";
+ const items=Array.isArray(state.history)?state.history:[];
+ count.textContent=items.length?items.length+" movimientos":"";
+ if(!items.length){
+   h.innerHTML='<div class="muted" style="font-size:14px">No hay movimientos registrados</div>';
+   return;
+ }
+ items.slice().reverse().slice(0,10).forEach(x=>{
+   const sign=x.kind==="income"?"+":"−";
+   const cls=x.kind==="income"?"positive":"negative";
+   h.insertAdjacentHTML("beforeend",`<div class="historyitem"><span><b>${x.concept||"Sin concepto"}</b><br><small class="muted">${x.date||""}</small></span><b class="${cls}">${sign} ${euro(Number(x.eur)||0)}</b></div>`);
  });
 }
 function payOccurrence(key){
