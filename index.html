@@ -7,33 +7,33 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Mis Finanzas">
-<link rel="manifest" href="manifest.json?v=5">
 <title>Mis Finanzas</title>
 <style>
-:root{--g:#09a06d;--gbg:#e9f8f2;--b:#1683e8;--text:#17202a;--muted:#68727d;--line:#e7eaee;--bg:#f7f8fa}
+:root{--g:#09a06d;--gbg:#e9f8f2;--b:#1683e8;--text:#17202a;--muted:#68727d;--line:#e7eaee;--bg:#f7f8fa;--red:#c13b3b}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;color:var(--text)}
-.app{max-width:760px;margin:auto;padding:14px 14px 30px}header{display:flex;align-items:center;justify-content:space-between;padding:6px 4px 14px}header h1{font-size:21px;margin:0;font-weight:750}.date{font-size:13px;color:var(--muted);text-align:center;margin-top:2px}
-.iconbtn{width:44px;height:44px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:22px}.balance{background:linear-gradient(135deg,#0aa06d,#0b9a68);color:#fff;border-radius:24px;padding:22px;margin-bottom:14px;box-shadow:0 8px 24px #0aa06d20}.label{font-size:14px;font-weight:700}.amountbig{font-size:43px;font-weight:800;letter-spacing:-1.5px;margin:8px 0}.balance small{opacity:.85}
-.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:14px}.cardtitle{font-size:15px;font-weight:800;margin-bottom:13px;display:flex;justify-content:space-between;gap:8px}.muted{color:var(--muted)}
-.account{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.account:last-child{border-bottom:0}.accname{font-weight:700}.accsub{font-size:12px;color:var(--muted);margin-top:2px}.accright{text-align:right}.accright b{font-size:16px}.eurrate{font-size:12px;color:var(--g);margin-top:2px}.hint{font-size:12px;color:var(--muted);margin-top:6px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.action{min-height:70px;border-radius:18px;text-align:left;padding:12px 15px;display:flex;align-items:center;gap:12px}.action .plus{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:29px;color:#fff}.expense{background:var(--gbg);color:#087b57}.expense .plus{background:var(--g)}.income{background:#edf6ff;color:#0873ca}.income .plus{background:var(--b)}.action strong{display:block;font-size:16px}.action span{font-size:12px}
-.row{display:grid;grid-template-columns:58px 1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.day{font-size:12px;color:#367bd0}.name{font-weight:650}.money{text-align:right;font-weight:700}.total{display:flex;justify-content:space-between;padding-top:11px;font-weight:700;font-size:13px}.pay{font-size:12px;background:var(--gbg);color:#087b57;border-radius:9px;padding:7px 9px;margin-top:4px}
-.historyitem{display:flex;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--line)}.historyitem:last-child{border:0}.positive{color:#087b57}.negative{color:#c13b3b}
-.modal{position:fixed;inset:0;background:#0005;display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-width:760px;border-radius:26px 26px 0 0;padding:16px 16px max(18px,env(safe-area-inset-bottom));max-height:94vh;overflow:auto}.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheethead h2{margin:0;font-size:20px}.close{background:none;font-size:28px;width:44px;height:44px}.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:18px}.tab{padding:13px;font-weight:700;background:#fff;color:var(--muted)}.tab.active{color:var(--g);border-bottom:2px solid var(--g)}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}.field input{width:100%;height:56px;border:1px solid #dfe3e8;border-radius:14px;padding:0 15px;font-size:25px;outline:none}.field input:focus{border-color:var(--g)}.concept{font-size:18px!important}.save{width:100%;height:54px;border-radius:15px;background:var(--g);color:#fff;font-weight:800;font-size:16px;margin-top:12px}.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.key{height:54px;border-radius:12px;background:#f2f4f6;font-size:23px}.key.zero{grid-column:2}.key.del{font-size:19px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.daybtn{height:40px;border-radius:10px;background:#f3f5f7}.daybtn.sel{background:var(--g);color:#fff;font-weight:800}.note{font-size:12px;color:var(--muted);margin:5px 0 14px}
+.app{max-width:430px;margin:auto;padding:14px 14px 30px}header{display:flex;align-items:center;justify-content:space-between;padding:6px 4px 14px}header h1{font-size:21px;margin:0;font-weight:400}.date{font-size:13px;color:var(--muted);text-align:center;margin-top:2px}
+.iconbtn{width:44px;height:44px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:22px}.balance{background:linear-gradient(135deg,#0aa06d,#0b9a68);color:#fff;border-radius:24px;padding:22px;margin-bottom:14px;box-shadow:0 8px 24px #0aa06d20}.label{font-size:14px;font-weight:400}.amountbig{font-size:43px;font-weight:800;letter-spacing:-1.5px;margin:8px 0}.balance small{opacity:.85}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:14px}.cardtitle{font-size:15px;font-weight:400;margin-bottom:13px;display:flex;justify-content:space-between;gap:8px}.muted{color:var(--muted)}
+.account{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.account:last-child{border-bottom:0}.accname{font-weight:400}.accsub{font-size:12px;color:var(--muted);margin-top:2px}.accright{text-align:right}.accright b{font-size:16px}.eurrate{font-size:12px;color:var(--g);margin-top:2px}.hint{font-size:12px;color:var(--muted);margin-top:6px}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.action{min-height:70px;border-radius:18px;text-align:left;padding:12px 15px;display:flex;align-items:center;gap:12px;border:0}.action .plus{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:29px;color:#fff}.expense{background:rgba(210,55,55,.10);color:#9f3434}.expense .plus{background:rgba(193,59,59,.82)}.income{background:var(--gbg);color:#087b57}.income .plus{background:var(--g)}.action strong{display:block;font-size:16px}.action span{font-size:12px}
+.row{display:grid;grid-template-columns:58px 1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.day{font-size:12px;color:#367bd0}.name{font-weight:400}.money{text-align:right;font-weight:400}.positive{color:#087b57}.negative{color:var(--red)}.pay{font-size:12px;background:var(--gbg);color:#087b57;border:0;border-radius:9px;padding:7px 9px;margin-top:4px}.commitGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.commitCard{border-radius:17px;padding:11px 10px;min-height:86px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(0,0,0,.06);font-weight:400;box-shadow:0 5px 16px rgba(0,0,0,.045)}.commitCard:nth-child(4n+1){background:rgba(245,245,245,.92)}.commitCard:nth-child(4n+2){background:rgba(232,232,232,.82)}.commitCard:nth-child(4n+3){background:rgba(238,238,238,.88)}.commitCard:nth-child(4n+4){background:rgba(220,220,220,.76)}.commitDate{font-size:10px;font-weight:400;letter-spacing:.4px;color:#68717b}.commitName{font-size:13px;font-weight:400;line-height:1.15}.commitAmount{font-size:14px;font-weight:400}.nextSummary{font-size:15px;font-weight:400;padding:10px 0 2px;text-align:right}.liquidityLine{display:flex;justify-content:space-between;align-items:center;background:rgba(45,115,210,.10);border:1px solid rgba(45,115,210,.20);border-radius:17px;padding:14px 16px;margin-bottom:14px}.liquidityLine span{font-weight:400}.liquidityLine b{font-size:20px;font-weight:800;color:#2368b8}@media(max-width:520px){.commitGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
+.total{display:flex;justify-content:space-between;padding-top:11px;font-weight:400;font-size:13px}
+.modal{position:fixed;inset:0;background:#0005;display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-width:430px;border-radius:26px 26px 0 0;padding:16px 16px max(18px,env(safe-area-inset-bottom));max-height:94vh;overflow:auto}.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheethead h2{margin:0;font-size:20px}.close{background:none;border:0;font-size:28px;width:44px;height:44px}.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:18px}.tab{padding:13px;font-weight:400;background:#fff;color:var(--muted);border:0}.tab.active{color:var(--g);border-bottom:2px solid var(--g)}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:400;margin-bottom:7px}.field input{width:100%;height:56px;border:1px solid #dfe3e8;border-radius:14px;padding:0 15px;font-size:25px;outline:none}.field input:focus{border-color:var(--g)}.concept{font-size:18px!important}.accountChoices{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.acctChoice{height:44px;border-radius:12px;border:1px solid #dfe3e8;background:#f3f5f7;font-size:16px;font-weight:400;color:#4d5660}.acctChoice.sel{background:var(--g);border-color:var(--g);color:#fff}.save{width:100%;height:54px;border-radius:15px;background:var(--g);color:#fff;border:0;font-weight:400;font-size:16px;margin-top:12px}.save:disabled{opacity:.55}.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.key{height:54px;border-radius:12px;background:#f2f4f6;border:0;font-size:23px}.key.zero{grid-column:2}.key.del{font-size:19px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.daybtn{height:40px;border-radius:10px;background:#f3f5f7;border:0}.daybtn.sel{background:var(--g);color:#fff;font-weight:400}.note{font-size:12px;color:var(--muted);margin:5px 0 14px}
 @media(min-width:700px){.modal{align-items:center}.sheet{border-radius:24px;width:min(520px,92vw)}}
 </style>
 </head>
 <body>
 <div class="app">
-<header><button class="iconbtn">☰</button><div><h1>Resumen</h1><div class="date" id="today"></div></div><button class="iconbtn">⚙︎</button></header>
-
-<section class="balance"><div class="label">DISPONIBLE AHORA</div><div class="amountbig" id="balance">1.664,21 €</div><small id="updated">Actualizado hoy</small></section>
+<header><button class="iconbtn" id="menu">☰</button><div><h1>Resumen</h1><div class="date" id="today"></div></div><button class="iconbtn" id="settings">⚙︎</button></header>
+<section class="balance"><div class="label">DISPONIBLE AHORA</div><div class="amountbig" id="balance"></div><small id="updated"></small></section>
 
 <section class="card">
-<div class="cardtitle"><span>MIS CUENTAS</span><span style="color:var(--g)" id="accountsTotal">Total: 1.664,21 €</span></div>
-<div class="account"><div><div class="accname">Wise</div><div class="accsub">Euro</div></div><div class="accright"><b>659,00 €</b></div></div>
-<div class="account"><div><div class="accname">Efectivo</div><div class="accsub">Cash</div></div><div class="accright"><b>565,00 €</b></div></div>
-<div class="account"><div><div class="accname">Bancolombia</div><div class="accsub">Peso colombiano</div></div><div class="accright"><b>1.596.000 COP</b><div class="eurrate">≈ 440,21 €</div></div></div>
+<div class="cardtitle"><span>MIS CUENTAS</span><span style="color:var(--g)" id="accountsTotal"></span></div>
+<div class="account"><div><div class="accname">Wise</div><div class="accsub">Euro</div></div><div class="accright"><b id="accW"></b></div></div>
+<div class="account"><div><div class="accname">Efectivo</div><div class="accsub">Cash</div></div><div class="accright"><b id="accCash"></b></div></div>
+<div class="account"><div><div class="accname">Bancolombia</div><div class="accsub">Peso colombiano</div></div><div class="accright"><b>1.544.333 COP</b><div class="eurrate" id="accBC"></div></div></div>
+<div class="account"><div><div class="accname">Nómina</div><div class="accsub">Ingresos</div></div><div class="accright"><b id="accN"></b></div></div>
+<div class="account"><div><div class="accname">Otros</div><div class="accsub">Ingresos / salidas</div></div><div class="accright"><b id="accO"></b></div></div>
 <div class="hint">Tipo de cambio COP: 1 € = 3.626,12 COP</div>
 </section>
 
@@ -43,29 +43,35 @@
 </div>
 
 <section class="card">
-<div class="cardtitle"><span id="currentTitle">PENDIENTE — AGOSTO 2026</span><span style="color:var(--g)" id="currentCount"></span></div>
-<div id="currentList"></div><div class="total" id="currentTotal"></div><div id="afterPending" class="hint" style="font-weight:700;margin-top:8px"></div>
+<div class="cardtitle"><span id="currentTitle"></span><span style="color:var(--g)" id="currentCount"></span></div>
+<div id="currentList"></div><div class="total" id="currentTotal"></div>
+<div id="afterPending" class="hint" style="font-weight:400;margin-top:8px"></div>
 </section>
 
 <section class="card">
-<div class="cardtitle"><span id="nextTitle">COMPROMISOS — SEPTIEMBRE 2026</span><span style="color:var(--g)" id="nextTotal"></span></div>
-<div id="nextList"></div>
+<div class="cardtitle"><span id="nextTitle"></span></div>
+<div id="nextList" class="commitGrid"></div>
+<div class="nextSummary" id="nextTotal"></div>
 </section>
 
-<section class="card">
-<div class="cardtitle"><span>ÚLTIMOS MOVIMIENTOS</span><span class="muted" id="historyCount"></span></div>
-<div id="history"><div class="muted" style="font-size:14px">No hay movimientos registrados</div></div>
-</section>
+<div class="liquidityLine"><span id="liqTitle">LIQUIDEZ DEL MES</span><b id="liqAfter"></b></div>
 </div>
 
 <div class="modal" id="modal">
 <div class="sheet">
-<div class="sheethead"><h2 id="modalTitle">Nuevo gasto</h2><button class="close" id="close">×</button></div>
+<div class="sheethead"><h2 id="modalTitle"></h2><button class="close" id="close">×</button></div>
 <div class="tabs"><button class="tab active" id="oneTab">Único</button><button class="tab" id="recTab">Recurrente</button></div>
 <div class="field"><label>Importe</label><input id="amount" inputmode="decimal" autocomplete="off" placeholder="0,00"></div>
 <div class="field"><label>Concepto</label><input id="concept" class="concept" autocomplete="off" placeholder="Ej. Mercadona"></div>
-<div id="recFields" style="display:none"><label style="font-size:13px;font-weight:700;display:block;margin-bottom:7px">Día del mes</label><div class="days" id="days"></div><div class="note">Se repetirá cada mes en este día.</div></div>
-<button class="save" id="save">Guardar</button>
+<div class="field"><label>Cuenta</label><div id="accounts" class="accountChoices">
+<button type="button" class="acctChoice sel" data-account="W">W</button>
+<button type="button" class="acctChoice" data-account="€">€</button>
+<button type="button" class="acctChoice" data-account="BC">BC</button>
+<button type="button" class="acctChoice" data-account="N">N</button>
+<button type="button" class="acctChoice" data-account="O">O</button>
+</div></div>
+<div id="recFields" style="display:none"><label style="font-size:13px;font-weight:400;display:block;margin-bottom:7px">Día del mes</label><div class="days" id="days"></div><div class="note">Se repetirá cada mes en este día.</div></div>
+<button class="save" id="save"></button>
 <div class="keypad" id="keypad">
 <button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button>
 <button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button>
@@ -75,130 +81,191 @@
 </div></div>
 
 <script>
-const INITIAL=1664.21;
+const INITIAL=1650.68;
 const COP_EUR=3626.12;
-const USD_PER_EUR=1.1699; // ECB reference 21/08/2026
-let state=JSON.parse(localStorage.getItem("misFinanzasState")||"null")||{
- balance:INITIAL, history:[], recurringExpenses:[
- {name:"Vivienda",amount:550,currency:"EUR",day:2},
- {name:"Digi",amount:10,currency:"EUR",day:2},
- {name:"TUSSAM",amount:25,currency:"EUR",day:2},
- {name:"Basic-Fit",amount:34.99,currency:"EUR",day:10},
- {name:"Spotify",amount:5.91,currency:"USD",day:18},
- {name:"ChatGPT",amount:8,currency:"USD",day:24},
- {name:"Apple",amount:10,currency:"EUR",day:27}
- ], recurringIncome:[], paid:{"e-0-2026-08":true,"e-1-2026-08":true,"e-2-2026-08":true,"e-3-2026-08":true,"e-4-2026-08":true}
-};
-if(!Array.isArray(state.history)) state.history=[];
-if(!Array.isArray(state.recurringExpenses)) state.recurringExpenses=[];
-if(!Array.isArray(state.recurringIncome)) state.recurringIncome=[];
-if(!state.paid || typeof state.paid!=="object") state.paid={};
-if(typeof state.balance!=="number") state.balance=1664.21;
-localStorage.setItem("misFinanzasState",JSON.stringify(state));
-let type="expense",mode="one",selectedDay=new Date().getDate();
+const USD_PER_EUR=1.1699;
+const STORAGE="misFinanzasStateFinalV4";
 
-function euro(n){return new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+" €"}
-function fmt(n,c){return new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+" "+(c==="USD"?"USD":"€")}
-function toEUR(amount,c){return c==="USD"?amount/USD_PER_EUR:amount}
-function monthKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
-function monthName(d){return d.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}
-function occKey(kind,index,month){return kind+"-"+index+"-"+month}
-function save(){localStorage.setItem("misFinanzasState",JSON.stringify(state))}
-function currentMonth(){return new Date()}
-function occurrenceFor(item,index,d){
- const m=monthKey(d), key=occKey("e",index,m);
- return {key,date:new Date(d.getFullYear(),d.getMonth(),item.day),item,index,paid:!!state.paid[key]};
+const defaultState={
+ balance:INITIAL,
+ accounts:{W:659.81,"€":565,BC:425.87,N:0,O:0},
+ expenses:[],
+ incomes:[],
+ recurringExpenses:[
+  {id:"chatgpt",name:"ChatGPT",amount:8,currency:"USD",day:24,createdAt:"2026-08-01",paidMonths:{}},
+  {id:"apple",name:"Apple",amount:10,currency:"EUR",day:27,createdAt:"2026-08-01",paidMonths:{}},
+  {id:"vivienda",name:"Vivienda",amount:550,currency:"EUR",day:2,createdAt:"2026-08-01",paidMonths:{}},
+  {id:"digi",name:"Digi",amount:10,currency:"EUR",day:2,createdAt:"2026-08-01",paidMonths:{}},
+  {id:"tussam",name:"TUSSAM",amount:25,currency:"EUR",day:2,createdAt:"2026-08-01",paidMonths:{}},
+  {id:"basicfit",name:"Basic-Fit",amount:34.99,currency:"EUR",day:10,createdAt:"2026-08-01",paidMonths:{}},
+  {id:"spotify",name:"Spotify",amount:5.91,currency:"USD",day:18,createdAt:"2026-08-01",paidMonths:{}}
+
+],
+ recurringIncomes:[]
+};
+
+function clone(x){return JSON.parse(JSON.stringify(x))}
+function loadState(){
+ try{
+  const raw=localStorage.getItem(STORAGE);
+  if(raw){
+   const s=JSON.parse(raw);
+   if(s && typeof s.balance==="number" && Array.isArray(s.recurringExpenses) && Array.isArray(s.recurringIncomes)) return s;
+  }
+ }catch(e){}
+ return clone(defaultState);
 }
+let state=loadState();
+function normalizeState(){
+ if(!state || typeof state!=="object") state=clone(defaultState);
+ if(typeof state.balance!=="number") state.balance=INITIAL;
+ if(!state.accounts || typeof state.accounts!=="object") state.accounts={W:659,"€":565,BC:440.21,N:0,O:0};
+ for(const k of ["W","€","BC","N","O"]) if(typeof state.accounts[k]!=="number") state.accounts[k]=0;
+ if(!Array.isArray(state.expenses)) state.expenses=[];
+ if(!Array.isArray(state.incomes)) state.incomes=[];
+ if(!Array.isArray(state.recurringExpenses)) state.recurringExpenses=[];
+ if(!Array.isArray(state.recurringIncomes)) state.recurringIncomes=[];
+ state.recurringExpenses.forEach(x=>{if(!x.paidMonths)x.paidMonths={};if(!x.account || !["W","€","BC","N","O"].includes(x.account))x.account="W"});
+ state.recurringIncomes.forEach(x=>{if(!x.paidMonths)x.paidMonths={};if(!x.account || !["W","€","BC","N","O"].includes(x.account))x.account="N"});
+ save();
+}
+normalizeState();
+function save(){localStorage.setItem(STORAGE,JSON.stringify(state))}
+function euro(n){return new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+" €"}
+function toEUR(amount,currency){return currency==="USD"?amount/USD_PER_EUR:amount}
+function monthKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
+function monthLabel(d){return d.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}
+function monthStart(d){return new Date(d.getFullYear(),d.getMonth(),1)}
+function occurrenceDate(item,d){return new Date(d.getFullYear(),d.getMonth(),item.day)}
+function isPaid(item,m){return !!(item.paidMonths&&item.paidMonths[m])}
+function createdBeforeMonth(item,d){return new Date(item.createdAt||"2026-08-01")<=monthStart(d)}
+
 function render(){
- const now=new Date();
+ const now=new Date(), cur=monthStart(now), next=new Date(now.getFullYear(),now.getMonth()+1,1);
  document.getElementById("today").textContent=now.toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
  document.getElementById("updated").textContent="Actualizado hoy, "+now.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});
  document.getElementById("balance").textContent=euro(state.balance);
  document.getElementById("accountsTotal").textContent="Total: "+euro(state.balance);
+ document.getElementById("accW").textContent=euro(state.accounts.W);
+ document.getElementById("accCash").textContent=euro(state.accounts["€"]);
+ document.getElementById("accBC").textContent="≈ "+euro(state.accounts.BC);
+ document.getElementById("accN").textContent=euro(state.accounts.N);
+ document.getElementById("accO").textContent=euro(state.accounts.O);
+ renderMonth("current",cur);
+ renderMonth("next",next);
+ renderLiquidity();
+}
 
- const cur=new Date(now.getFullYear(),now.getMonth(),1), next=new Date(now.getFullYear(),now.getMonth()+1,1);
- renderMonth("current",cur); renderMonth("next",next); renderHistory();
-}
 function renderMonth(which,d){
- const list=document.getElementById(which+"List"), total=document.getElementById(which+"Total"), title=document.getElementById(which+"Title"), count=document.getElementById("currentCount");
- title.textContent=(which==="current"?"PENDIENTE — ":"COMPROMISOS — ")+d.toLocaleDateString("es-ES",{month:"long",year:"numeric"}).toUpperCase();
- list.innerHTML="";
- let sumEUR=0,countPending=0;
- state.recurringExpenses.map((x,i)=>occurrenceFor(x,i,d)).sort((a,b)=>a.item.day-b.item.day).forEach(o=>{
-   const eur=toEUR(o.item.amount,o.item.currency); sumEUR+=eur;
-   const overdue=which==="current" && o.date<new Date(nowDate().setHours(0,0,0,0)) && !o.paid;
-   if(!o.paid)countPending++;
-   const status=o.paid?"Pagado":(which==="current"?"Marcar pagado":"");
-   list.insertAdjacentHTML("beforeend",`<div class="row">
-    <div class="day">${String(o.item.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"})}</div>
-    <div><div class="name">${o.item.name}</div>${overdue?'<div class="muted" style="font-size:11px">Vencido</div>':""}</div>
-    <div class="money">${fmt(o.item.amount,o.item.currency)}${!o.paid&&which==="current"?`<br><button class="pay" data-pay="${o.key}">Marcar pagado</button>`:""}</div>
-   </div>`);
- });
- if(which==="current") count.textContent=countPending+" pendiente"+(countPending===1?"":"s");
- total.innerHTML=`<span>${which==="current"?"Pendiente":"Total comprometido"}</span><span>≈ ${euro(sumEUR)}</span>`;
- if(which==="current"){
-   document.getElementById("afterPending").textContent=`Después de pagos pendientes: ${euro(state.balance-sumEUR)}`;
+ const list=document.getElementById(which==="current"?"currentList":"nextList");
+ const total=which==="current"?document.getElementById("currentTotal"):null;
+ const title=document.getElementById(which==="current"?"currentTitle":"nextTitle");
+ const count=document.getElementById("currentCount");
+ const m=monthKey(d); list.innerHTML="";
+ let expenseTotal=0,incomeTotal=0,pending=0;
+ const now=new Date(), isCurrent=which==="current";
+ const expenses=state.recurringExpenses.filter(x=>createdBeforeMonth(x,d)).sort((a,b)=>a.day-b.day);
+ const incomes=state.recurringIncomes.filter(x=>createdBeforeMonth(x,d)).sort((a,b)=>a.day-b.day);
+ if(isCurrent){
+  expenses.filter(x=>!isPaid(x,m) && x.day>=now.getDate()).forEach(x=>{
+   const eur=toEUR(x.amount,x.currency); expenseTotal+=eur; pending++;
+   list.insertAdjacentHTML("beforeend",`<div class="row"><div class="day">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"})}</div><div><div class="name">${x.name}</div><div class="muted" style="font-size:11px">Pendiente</div></div><div class="money">${x.currency==="USD"?x.amount.toFixed(2)+" USD":euro(x.amount)}</div></div>`);
+  });
+  incomes.filter(x=>!isPaid(x,m) && x.day>=now.getDate()).forEach(x=>{
+   const eur=toEUR(x.amount,x.currency); incomeTotal+=eur;
+   list.insertAdjacentHTML("beforeend",`<div class="row"><div class="day">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"})}</div><div><div class="name">${x.name}</div><div class="muted positive">Ingreso previsto</div></div><div class="money positive">+ ${euro(x.amount)}</div></div>`);
+  });
+  title.textContent="PENDIENTE — "+monthLabel(d).toUpperCase();
+  count.textContent=pending+" pendiente"+(pending===1?"":"s");
+  total.innerHTML=`<span>Pendiente neto</span><span>≈ ${euro(expenseTotal-incomeTotal)}</span>`;
+  document.getElementById("afterPending").textContent=`Después de compromisos pendientes: ${euro(state.balance-expenseTotal+incomeTotal)}`;
+ }else{
+  expenses.forEach(x=>{
+   expenseTotal+=toEUR(x.amount,x.currency);
+   list.insertAdjacentHTML("beforeend",`<div class="commitCard"><div class="commitDate">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"}).toUpperCase()}</div><div class="commitName">${x.name}</div><div class="commitAmount">${x.currency==="USD"?x.amount.toFixed(2)+" USD":euro(x.amount)}</div></div>`);
+  });
+  incomes.forEach(x=>{
+   incomeTotal+=toEUR(x.amount,x.currency);
+   list.insertAdjacentHTML("beforeend",`<div class="commitCard"><div class="commitDate">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"}).toUpperCase()}</div><div class="commitName">${x.name}</div><div class="commitAmount positive">+ ${euro(x.amount)}</div></div>`);
+  });
+  title.textContent="COMPROMISOS — "+monthLabel(d).toUpperCase();
+  document.getElementById("nextTotal").textContent=`Total: ${euro(expenseTotal-incomeTotal)}`;
  }
- list.querySelectorAll("[data-pay]").forEach(b=>b.onclick=()=>payOccurrence(b.dataset.pay));
 }
-function renderHistory(){
- const h=document.getElementById("history");
- const count=document.getElementById("historyCount");
- h.innerHTML="";
- const items=Array.isArray(state.history)?state.history:[];
- count.textContent=items.length?items.length+" movimientos":"";
- if(!items.length){
-   h.innerHTML='<div class="muted" style="font-size:14px">No hay movimientos registrados</div>';
-   return;
- }
- items.slice().reverse().slice(0,10).forEach(x=>{
-   const sign=x.kind==="income"?"+":"−";
-   const cls=x.kind==="income"?"positive":"negative";
-   h.insertAdjacentHTML("beforeend",`<div class="historyitem"><span><b>${x.concept||"Sin concepto"}</b><br><small class="muted">${x.date||""}</small></span><b class="${cls}">${sign} ${euro(Number(x.eur)||0)}</b></div>`);
- });
-}
-function payOccurrence(key){
- const parts=key.split("-"), idx=Number(parts[1]), month=parts.slice(2).join("-");
- const item=state.recurringExpenses[idx]; if(!item)return;
+
+function markPaid(id,m){
+ const item=state.recurringExpenses.find(x=>x.id===id);
+ if(!item || isPaid(item,m)) return;
  const eur=toEUR(item.amount,item.currency);
- if(!confirm(`Registrar ${item.name} por ${fmt(item.amount,item.currency)} como pagado?\nSe descontarán ≈ ${euro(eur)}.`))return;
- state.balance-=eur; state.paid[key]=true;
- state.history.push({date:new Date().toLocaleDateString("es-ES"),concept:item.name,eur,kind:"expense",recurring:true});
+ item.paidMonths=item.paidMonths||{};
+ item.paidMonths[m]=true;
+ state.balance-=eur;
+ item.account=item.account||"W";
+ state.accounts[item.account]-=eur;
  save();render();
 }
-function openModal(kind){type=kind;document.getElementById("modalTitle").textContent=kind==="expense"?"Nuevo gasto":"Nuevo ingreso";resetForm();document.getElementById("modal").classList.add("open")}
-function closeModal(){document.getElementById("modal").classList.remove("open");saving=false}
-function resetForm(){mode="one";selectedDay=new Date().getDate();document.getElementById("amount").value="";document.getElementById("concept").value="";setMode("one")}
-function setMode(m){mode=m;document.getElementById("oneTab").classList.toggle("active",m==="one");document.getElementById("recTab").classList.toggle("active",m==="rec");document.getElementById("recFields").style.display=m==="rec"?"block":"none";document.getElementById("save").textContent=(type==="expense"?(m==="rec"?"Guardar gasto recurrente":"Guardar gasto"):(m==="rec"?"Guardar ingreso recurrente":"Guardar ingreso"));renderDays()}
+
+function renderLiquidity(){
+ const now=new Date(), m=monthKey(now);
+ let pendingExpenses=0,pendingIncomes=0;
+ state.recurringExpenses.forEach(x=>{if(createdBeforeMonth(x,now)&&!isPaid(x,m)&&x.day>=now.getDate())pendingExpenses+=toEUR(x.amount,x.currency)});
+ state.recurringIncomes.forEach(x=>{if(createdBeforeMonth(x,now)&&!isPaid(x,m)&&x.day>=now.getDate())pendingIncomes+=toEUR(x.amount,x.currency)});
+ document.getElementById("liqTitle").textContent="LIQUIDEZ DE "+monthLabel(now).toUpperCase();
+ document.getElementById("liqAfter").textContent=euro(state.balance-pendingExpenses+pendingIncomes);
+}
+
+let type="expense",mode="one",selectedDay=new Date().getDate(),selectedAccount="W",saving=false;
+function openModal(kind){type=kind;resetForm();document.getElementById("modalTitle").textContent=kind==="expense"?"Nuevo gasto":"Nuevo ingreso";document.getElementById("modal").classList.add("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open");saving=false;document.getElementById("save").disabled=false}
+function resetForm(){mode="one";selectedDay=new Date().getDate();selectedAccount="W";updateAccountButtons();document.getElementById("amount").value="";document.getElementById("concept").value="";setMode("one")}
+function setMode(m){mode=m;document.getElementById("oneTab").classList.toggle("active",m==="one");document.getElementById("recTab").classList.toggle("active",m==="rec");document.getElementById("recFields").style.display=m==="rec"?"block":"none";document.getElementById("save").textContent=type==="expense"?(m==="rec"?"Guardar gasto recurrente":"Guardar gasto"):(m==="rec"?"Guardar ingreso recurrente":"Guardar ingreso");renderDays()}
 function renderDays(){const d=document.getElementById("days");d.innerHTML="";for(let i=1;i<=31;i++){const b=document.createElement("button");b.type="button";b.className="daybtn"+(i===selectedDay?" sel":"");b.textContent=i;b.onclick=()=>{selectedDay=i;renderDays()};d.appendChild(b)}}
 function keypress(k){const a=document.getElementById("amount");if(k==="del"){a.value=a.value.slice(0,-1);return}if(k===","&&a.value.includes(","))return;if(a.value==="0"&&k!==",")a.value="";a.value+=k}
+
 document.getElementById("expenseBtn").onclick=()=>openModal("expense");
 document.getElementById("incomeBtn").onclick=()=>openModal("income");
 document.getElementById("close").onclick=closeModal;
 document.getElementById("oneTab").onclick=()=>setMode("one");
 document.getElementById("recTab").onclick=()=>setMode("rec");
 document.getElementById("keypad").addEventListener("click",e=>{if(e.target.dataset.k)keypress(e.target.dataset.k)});
-let saving=false;
+function updateAccountButtons(){document.querySelectorAll(".acctChoice").forEach(b=>b.classList.toggle("sel",b.dataset.account===selectedAccount))}
+document.getElementById("accounts").addEventListener("click",e=>{const b=e.target.closest(".acctChoice");if(!b)return;selectedAccount=b.dataset.account;updateAccountButtons()});
+
 document.getElementById("save").onclick=()=>{
  if(saving)return;
- const btn=document.getElementById("save"); saving=true; btn.disabled=true;
  const raw=document.getElementById("amount").value.trim();
- const amount=parseFloat(raw.replace(/\./g,"").replace(",","."));
+ const amount=raw===""?0:parseFloat(raw.replace(/\./g,"").replace(",","."));
  const concept=document.getElementById("concept").value.trim();
- if(!Number.isFinite(amount)||amount<=0){saving=false;btn.disabled=false;alert("Introduce un importe válido.");return}
- if(!concept){saving=false;btn.disabled=false;alert("Introduce un concepto.");return}
+ if(!Number.isFinite(amount)||amount<0){alert("Importe no válido.");return}
+ if(!concept){alert("Introduce un concepto.");return}
+ if(mode==="one" && amount<=0){alert("Introduce un importe mayor que 0.");return}
+
+ saving=true; const btn=document.getElementById("save"); btn.disabled=true;
  if(mode==="one"){
-   if(type==="expense")state.balance-=amount; else state.balance+=amount;
-   state.history.push({date:new Date().toLocaleDateString("es-ES"),concept,eur:amount,kind:type,id:Date.now()});
+   if(type==="expense"){
+     state.balance-=amount;
+     state.accounts[selectedAccount]-=amount;
+     state.expenses.push({id:"e-"+Date.now(),date:new Date().toISOString(),amount,concept,account:selectedAccount});
+   }else{
+     state.balance+=amount;
+     state.accounts[selectedAccount]+=amount;
+     state.incomes.push({id:"i-"+Date.now(),date:new Date().toISOString(),amount,concept,account:selectedAccount});
+   }
  }else{
-   if(type==="expense")state.recurringExpenses.push({name:concept,amount,currency:"EUR",day:selectedDay});
-   else state.recurringIncome.push({name:concept,amount,currency:"EUR",day:selectedDay});
+   const item={id:(type==="expense"?"re-":"ri-")+Date.now(),name:concept,amount,currency:"EUR",day:selectedDay,createdAt:new Date().toISOString().slice(0,10),paidMonths:{}};
+   if(type==="expense"){
+     item.account=selectedAccount;
+     state.recurringExpenses.push(item);
+     if(amount>0){state.balance-=amount;state.accounts[selectedAccount]-=amount;item.paidMonths[monthKey(new Date())]=true;}
+   }else{
+     item.account=selectedAccount;
+     state.recurringIncomes.push(item);
+     if(amount>0){state.balance+=amount;state.accounts[selectedAccount]+=amount;item.paidMonths[monthKey(new Date())]=true;}
+   }
  }
- save(); closeModal(); render();
- setTimeout(()=>{saving=false;btn.disabled=false},300);
+ save();closeModal();render();
 };
-let nowDate=new Date();
+
 render();
 </script>
 </body>

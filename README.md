@@ -1,1 +1,1 @@
-# Mis Finanzas v6 — corrección del historial de movimientos.
+Mis Finanzas v4 — un único registro recurrente por compromiso; agosto muestra solo lo pendiente desde el día actual; septiembre muestra los siete compromisos.
