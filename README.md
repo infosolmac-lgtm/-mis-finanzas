@@ -1,2 +1,1 @@
-# Mis Finanzas v4
-Corrección de persistencia y guardado de movimientos.
+Mis Finanzas v5 — actualización de persistencia y actualización de archivos sin quedar atrapados en caché antigua.
