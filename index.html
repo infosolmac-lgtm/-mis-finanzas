@@ -78,7 +78,7 @@
 const INITIAL=1664.21;
 const COP_EUR=3626.12;
 const USD_PER_EUR=1.1699; // ECB reference 21/08/2026
-let state=JSON.parse(localStorage.getItem("misFinanzasV2")||"null")||{
+let state=JSON.parse(localStorage.getItem("misFinanzasState")||"null")||{
  balance:INITIAL, history:[], recurringExpenses:[
  {name:"Vivienda",amount:550,currency:"EUR",day:2},
  {name:"Digi",amount:10,currency:"EUR",day:2},
@@ -89,6 +89,12 @@ let state=JSON.parse(localStorage.getItem("misFinanzasV2")||"null")||{
  {name:"Apple",amount:10,currency:"EUR",day:27}
  ], recurringIncome:[], paid:{"e-0-2026-08":true,"e-1-2026-08":true,"e-2-2026-08":true,"e-3-2026-08":true,"e-4-2026-08":true}
 };
+if(!Array.isArray(state.history)) state.history=[];
+if(!Array.isArray(state.recurringExpenses)) state.recurringExpenses=[];
+if(!Array.isArray(state.recurringIncome)) state.recurringIncome=[];
+if(!state.paid || typeof state.paid!=="object") state.paid={};
+if(typeof state.balance!=="number") state.balance=1664.21;
+localStorage.setItem("misFinanzasState",JSON.stringify(state));
 let type="expense",mode="one",selectedDay=new Date().getDate();
 
 function euro(n){return new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+" €"}
@@ -97,7 +103,7 @@ function toEUR(amount,c){return c==="USD"?amount/USD_PER_EUR:amount}
 function monthKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
 function monthName(d){return d.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}
 function occKey(kind,index,month){return kind+"-"+index+"-"+month}
-function save(){localStorage.setItem("misFinanzasV2",JSON.stringify(state))}
+function save(){localStorage.setItem("misFinanzasState",JSON.stringify(state))}
 function currentMonth(){return new Date()}
 function occurrenceFor(item,index,d){
  const m=monthKey(d), key=occKey("e",index,m);
@@ -154,7 +160,7 @@ function payOccurrence(key){
  save();render();
 }
 function openModal(kind){type=kind;document.getElementById("modalTitle").textContent=kind==="expense"?"Nuevo gasto":"Nuevo ingreso";resetForm();document.getElementById("modal").classList.add("open")}
-function closeModal(){document.getElementById("modal").classList.remove("open")}
+function closeModal(){document.getElementById("modal").classList.remove("open");saving=false}
 function resetForm(){mode="one";selectedDay=new Date().getDate();document.getElementById("amount").value="";document.getElementById("concept").value="";setMode("one")}
 function setMode(m){mode=m;document.getElementById("oneTab").classList.toggle("active",m==="one");document.getElementById("recTab").classList.toggle("active",m==="rec");document.getElementById("recFields").style.display=m==="rec"?"block":"none";document.getElementById("save").textContent=(type==="expense"?(m==="rec"?"Guardar gasto recurrente":"Guardar gasto"):(m==="rec"?"Guardar ingreso recurrente":"Guardar ingreso"));renderDays()}
 function renderDays(){const d=document.getElementById("days");d.innerHTML="";for(let i=1;i<=31;i++){const b=document.createElement("button");b.type="button";b.className="daybtn"+(i===selectedDay?" sel":"");b.textContent=i;b.onclick=()=>{selectedDay=i;renderDays()};d.appendChild(b)}}
@@ -165,20 +171,24 @@ document.getElementById("close").onclick=closeModal;
 document.getElementById("oneTab").onclick=()=>setMode("one");
 document.getElementById("recTab").onclick=()=>setMode("rec");
 document.getElementById("keypad").addEventListener("click",e=>{if(e.target.dataset.k)keypress(e.target.dataset.k)});
+let saving=false;
 document.getElementById("save").onclick=()=>{
+ if(saving)return;
+ const btn=document.getElementById("save"); saving=true; btn.disabled=true;
  const raw=document.getElementById("amount").value.trim();
  const amount=parseFloat(raw.replace(/\./g,"").replace(",","."));
  const concept=document.getElementById("concept").value.trim();
- if(!Number.isFinite(amount)||amount<=0){alert("Introduce un importe válido.");return}
- if(!concept){alert("Introduce un concepto.");return}
+ if(!Number.isFinite(amount)||amount<=0){saving=false;btn.disabled=false;alert("Introduce un importe válido.");return}
+ if(!concept){saving=false;btn.disabled=false;alert("Introduce un concepto.");return}
  if(mode==="one"){
    if(type==="expense")state.balance-=amount; else state.balance+=amount;
-   state.history.push({date:new Date().toLocaleDateString("es-ES"),concept,eur:amount,kind:type});
+   state.history.push({date:new Date().toLocaleDateString("es-ES"),concept,eur:amount,kind:type,id:Date.now()});
  }else{
    if(type==="expense")state.recurringExpenses.push({name:concept,amount,currency:"EUR",day:selectedDay});
    else state.recurringIncome.push({name:concept,amount,currency:"EUR",day:selectedDay});
  }
- save();render();closeModal();
+ save(); closeModal(); render();
+ setTimeout(()=>{saving=false;btn.disabled=false},300);
 };
 let nowDate=new Date();
 render();
