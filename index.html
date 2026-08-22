@@ -1,272 +1,876 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0aa06d">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="Mis Finanzas">
-<title>Mis Finanzas</title>
-<style>
-:root{--g:#09a06d;--gbg:#e9f8f2;--b:#1683e8;--text:#17202a;--muted:#68727d;--line:#e7eaee;--bg:#f7f8fa;--red:#c13b3b}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Helvetica Neue",Arial,sans-serif;color:var(--text)}
-.app{max-width:430px;margin:auto;padding:14px 14px 30px}header{display:flex;align-items:center;justify-content:space-between;padding:6px 4px 14px}header h1{font-size:21px;margin:0;font-weight:400}.date{font-size:13px;color:var(--muted);text-align:center;margin-top:2px}
-.iconbtn{width:44px;height:44px;border-radius:14px;background:#fff;border:1px solid var(--line);font-size:22px}.balance{background:linear-gradient(135deg,#0aa06d,#0b9a68);color:#fff;border-radius:24px;padding:22px;margin-bottom:14px;box-shadow:0 8px 24px #0aa06d20}.label{font-size:14px;font-weight:400}.amountbig{font-size:43px;font-weight:800;letter-spacing:-1.5px;margin:8px 0}.balance small{opacity:.85}
-.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:17px;margin-bottom:14px}.cardtitle{font-size:15px;font-weight:400;margin-bottom:13px;display:flex;justify-content:space-between;gap:8px}.muted{color:var(--muted)}
-.account{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.account:last-child{border-bottom:0}.accname{font-weight:400}.accsub{font-size:12px;color:var(--muted);margin-top:2px}.accright{text-align:right}.accright b{font-size:16px}.eurrate{font-size:12px;color:var(--g);margin-top:2px}.hint{font-size:12px;color:var(--muted);margin-top:6px}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}.action{min-height:70px;border-radius:18px;text-align:left;padding:12px 15px;display:flex;align-items:center;gap:12px;border:0}.action .plus{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-size:29px;color:#fff}.expense{background:rgba(210,55,55,.10);color:#9f3434}.expense .plus{background:rgba(193,59,59,.82)}.income{background:var(--gbg);color:#087b57}.income .plus{background:var(--g)}.action strong{display:block;font-size:16px}.action span{font-size:12px}
-.row{display:grid;grid-template-columns:58px 1fr auto;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}.row:last-child{border-bottom:0}.day{font-size:12px;color:#367bd0}.name{font-weight:400}.money{text-align:right;font-weight:400}.positive{color:#087b57}.negative{color:var(--red)}.pay{font-size:12px;background:var(--gbg);color:#087b57;border:0;border-radius:9px;padding:7px 9px;margin-top:4px}.commitGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.commitCard{border-radius:17px;padding:11px 10px;min-height:86px;display:flex;flex-direction:column;justify-content:space-between;border:1px solid rgba(0,0,0,.06);font-weight:400;box-shadow:0 5px 16px rgba(0,0,0,.045)}.commitCard:nth-child(4n+1){background:rgba(245,245,245,.92)}.commitCard:nth-child(4n+2){background:rgba(232,232,232,.82)}.commitCard:nth-child(4n+3){background:rgba(238,238,238,.88)}.commitCard:nth-child(4n+4){background:rgba(220,220,220,.76)}.commitDate{font-size:10px;font-weight:400;letter-spacing:.4px;color:#68717b}.commitName{font-size:13px;font-weight:400;line-height:1.15}.commitAmount{font-size:14px;font-weight:400}.nextSummary{font-size:15px;font-weight:400;padding:10px 0 2px;text-align:right}.liquidityLine{display:flex;justify-content:space-between;align-items:center;background:rgba(45,115,210,.10);border:1px solid rgba(45,115,210,.20);border-radius:17px;padding:14px 16px;margin-bottom:14px}.liquidityLine span{font-weight:400}.liquidityLine b{font-size:20px;font-weight:800;color:#2368b8}@media(max-width:520px){.commitGrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}}
-.total{display:flex;justify-content:space-between;padding-top:11px;font-weight:400;font-size:13px}
-.modal{position:fixed;inset:0;background:#0005;display:none;align-items:flex-end;justify-content:center;z-index:10}.modal.open{display:flex}.sheet{background:#fff;width:100%;max-width:430px;border-radius:26px 26px 0 0;padding:16px 16px max(18px,env(safe-area-inset-bottom));max-height:94vh;overflow:auto}.sheethead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.sheethead h2{margin:0;font-size:20px}.close{background:none;border:0;font-size:28px;width:44px;height:44px}.tabs{display:grid;grid-template-columns:1fr 1fr;border-bottom:1px solid var(--line);margin-bottom:18px}.tab{padding:13px;font-weight:400;background:#fff;color:var(--muted);border:0}.tab.active{color:var(--g);border-bottom:2px solid var(--g)}.field{margin-bottom:15px}.field label{display:block;font-size:13px;font-weight:400;margin-bottom:7px}.field input{width:100%;height:56px;border:1px solid #dfe3e8;border-radius:14px;padding:0 15px;font-size:25px;outline:none}.field input:focus{border-color:var(--g)}.concept{font-size:18px!important}.accountChoices{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}.acctChoice{height:44px;border-radius:12px;border:1px solid #dfe3e8;background:#f3f5f7;font-size:16px;font-weight:400;color:#4d5660}.acctChoice.sel{background:var(--g);border-color:var(--g);color:#fff}.save{width:100%;height:54px;border-radius:15px;background:var(--g);color:#fff;border:0;font-weight:400;font-size:16px;margin-top:12px}.save:disabled{opacity:.55}.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:12px}.key{height:54px;border-radius:12px;background:#f2f4f6;border:0;font-size:23px}.key.zero{grid-column:2}.key.del{font-size:19px}.days{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.daybtn{height:40px;border-radius:10px;background:#f3f5f7;border:0}.daybtn.sel{background:var(--g);color:#fff;font-weight:400}.note{font-size:12px;color:var(--muted);margin:5px 0 14px}
-@media(min-width:700px){.modal{align-items:center}.sheet{border-radius:24px;width:min(520px,92vw)}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Mis Finanzas</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: #f4f5f7;
+      color: #1c1c1e;
+      padding: 16px;
+      max-width: 480px;
+      margin: 0 auto;
+      padding-bottom: 40px;
+    }
+    
+    /* Header */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      margin-top: 8px;
+    }
+    .icon-btn {
+      width: 44px;
+      height: 44px;
+      background: #ffffff;
+      border: 1px solid #e5e5ea;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    }
+    .icon-btn svg { width: 20px; height: 20px; fill: #007aff; }
+    .header-title-container { text-align: left; flex-grow: 1; margin-left: 12px; }
+    .header-title { font-size: 22px; font-weight: 600; color: #1c1c1e; }
+    .header-date { font-size: 13px; color: #8e8e93; font-weight: 400; margin-top: 2px; }
+
+    /* Cards General */
+    .card {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.04);
+    }
+
+    /* Top Row: Disponible + Liquidez */
+    .top-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    /* Main Balance Card */
+    .hero-card {
+      background: #059669;
+      color: #ffffff;
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 8px 20px rgba(5, 150, 105, 0.25);
+      margin-bottom: 0;
+    }
+    .hero-label { font-size: 11px; text-transform: uppercase; tracking: 1px; opacity: 0.9; font-weight: 500; }
+    .hero-amount { font-size: 24px; font-weight: 700; margin: 8px 0 4px 0; letter-spacing: -0.5px; }
+    .hero-subtext { font-size: 11px; opacity: 0.85; font-weight: 400; }
+
+    /* Section Titles */
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+    .section-title { font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #3a3a3c; }
+    .section-total { font-size: 15px; font-weight: 500; color: #059669; }
+
+    /* Accounts List */
+    .account-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f2f2f7;
+      cursor: pointer;
+    }
+    .account-item:last-child { border-bottom: none; }
+    .acc-name { font-size: 16px; font-weight: 500; color: #1c1c1e; }
+    .acc-sub { font-size: 12px; color: #8e8e93; margin-top: 2px; }
+    .acc-amount-container { text-align: right; }
+    .acc-amount { font-size: 16px; font-weight: 400; color: #1c1c1e; }
+    .acc-converted { font-size: 12px; color: #059669; margin-top: 2px; }
+    .rate-footnote { font-size: 12px; color: #8e8e93; margin-top: 12px; text-align: left; }
+
+    /* Action Buttons */
+    .action-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .btn-action {
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      border: 1px solid #e5e5ea;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    }
+    .btn-income { background: #f0fdf4; border-color: #dcfce7; }
+    .btn-expense { background: #fef2f2; border-color: #fee2e2; }
+    .btn-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 600;
+    }
+    .icon-income-bg { background: #10b981; color: white; }
+    .icon-expense-bg { background: #ef4444; color: white; }
+    .btn-text-title { font-size: 15px; font-weight: 700; text-transform: uppercase; }
+    .text-income { color: #065f46; }
+    .text-expense { color: #991b1b; }
+    .btn-text-sub { font-size: 12px; color: #6b7280; margin-top: 2px; }
+
+    /* Pending & Liquidity Card */
+    .pending-status-text { font-size: 14px; color: #8e8e93; margin-bottom: 4px; }
+    .pending-sub { font-size: 13px; color: #636366; }
+
+    /* Commitment Grid */
+    .commitments-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-top: 12px;
+    }
+    .commitment-card {
+      background: #f2f2f7;
+      border-radius: 14px;
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 84px;
+      cursor: pointer;
+      position: relative;
+    }
+    .commitment-card:nth-child(3n+2) { background: #e9e9ee; }
+    .commitment-card:nth-child(3n) { background: #dfdfe4; }
+    .comm-date { font-size: 10px; font-weight: 600; color: #8e8e93; text-transform: uppercase; letter-spacing: 0.5px; }
+    .comm-concept { font-size: 13px; font-weight: 500; color: #1c1c1e; margin: 5px 0; line-height: 1.2; }
+    .comm-amount { font-size: 13px; font-weight: 600; color: #1c1c1e; }
+    .comm-total-bar { text-align: right; margin-top: 14px; font-size: 15px; font-weight: 600; color: #1c1c1e; }
+
+    /* Liquidity Box */
+    .liquidity-box {
+      background: #e0f2fe;
+      border-radius: 20px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.03);
+    }
+    .liq-title { font-size: 11px; font-weight: 600; color: #0369a1; text-transform: uppercase; letter-spacing: 0.5px; }
+    .liq-amount { font-size: 22px; font-weight: 700; color: #0284c7; margin-top: 8px; }
+
+    /* Modals & Bottom Sheets */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.4);
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+      z-index: 1000;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-card {
+      background: #ffffff;
+      width: 100%;
+      max-width: 480px;
+      border-top-left-radius: 24px;
+      border-top-right-radius: 24px;
+      padding: 24px;
+      box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+      animation: slideUp 0.25s ease-out;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .modal-title { font-size: 18px; font-weight: 600; }
+    .modal-close { font-size: 24px; font-weight: 300; color: #8e8e93; cursor: pointer; }
+
+    .form-group { margin-bottom: 16px; }
+    .form-label { font-size: 13px; font-weight: 500; color: #636366; margin-bottom: 6px; display: block; }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid #e5e5ea;
+      font-size: 16px;
+      outline: none;
+      background: #f9f9fb;
+    }
+    .form-input:focus, .form-select:focus { border-color: #007aff; background: #fff; }
+
+    .account-selector {
+      display: flex;
+      gap: 8px;
+    }
+    .account-chip {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      border: 1px solid #e5e5ea;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: #f9f9fb;
+    }
+    .account-chip.selected {
+      background: #007aff;
+      color: white;
+      border-color: #007aff;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: #007aff;
+      color: white;
+      border: none;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .btn-danger { background: #ef4444; }
+    .btn-secondary { background: #e5e5ea; color: #1c1c1e; margin-top: 8px; }
+
+    /* History List */
+    .history-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid #f2f2f7;
+    }
+    .history-item:last-child { border-bottom: none; }
+    .hist-desc { font-size: 15px; font-weight: 500; }
+    .hist-date { font-size: 12px; color: #8e8e93; }
+    .hist-amount-inc { font-size: 15px; font-weight: 600; color: #059669; }
+    .hist-amount-exp { font-size: 15px; font-weight: 600; color: #dc2626; }
+  </style>
 </head>
 <body>
-<div class="app">
-<header><button class="iconbtn" id="menu">☰</button><div><h1>Resumen</h1><div class="date" id="today"></div></div><button class="iconbtn" id="settings">⚙︎</button></header>
-<section class="balance"><div class="label">DISPONIBLE AHORA</div><div class="amountbig" id="balance"></div><small id="updated"></small></section>
 
-<section class="card">
-<div class="cardtitle"><span>MIS CUENTAS</span><span style="color:var(--g)" id="accountsTotal"></span></div>
-<div class="account"><div><div class="accname">Wise</div><div class="accsub">Euro</div></div><div class="accright"><b id="accW"></b></div></div>
-<div class="account"><div><div class="accname">Efectivo</div><div class="accsub">Cash</div></div><div class="accright"><b id="accCash"></b></div></div>
-<div class="account"><div><div class="accname">Bancolombia</div><div class="accsub">Peso colombiano</div></div><div class="accright"><b>1.544.333 COP</b><div class="eurrate" id="accBC"></div></div></div>
-<div class="account"><div><div class="accname">Nómina</div><div class="accsub">Ingresos</div></div><div class="accright"><b id="accN"></b></div></div>
-<div class="account"><div><div class="accname">Otros</div><div class="accsub">Ingresos / salidas</div></div><div class="accright"><b id="accO"></b></div></div>
-<div class="hint">Tipo de cambio COP: 1 € = 3.626,12 COP</div>
-</section>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <button class="icon-btn" onclick="openHistoryModal()" aria-label="Historial">
+      <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6a7 7 0 1 1 7 7 7.07 7.07 0 0 1-4.6-1.74l-1.42 1.42A8.95 8.95 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+    </button>
+    <div class="header-title-container">
+      <div class="header-title">Resumen</div>
+      <div class="header-date" id="current-date-str">Cargando fecha...</div>
+    </div>
+    <button class="icon-btn" onclick="openSettingsModal()" aria-label="Ajustes">
+      <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.95s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+    </button>
+  </div>
 
-<div class="actions">
-<button class="action income" id="incomeBtn"><span class="plus">+</span><span><strong>INGRESO</strong><span>Registrar un ingreso</span></span></button>
-<button class="action expense" id="expenseBtn"><span class="plus">+</span><span><strong>GASTO</strong><span>Registrar un gasto</span></span></button>
-</div>
+  <!-- Fila superior: Disponible Ahora + Liquidez -->
+  <div class="top-row">
+    <div class="hero-card">
+      <div class="hero-label">DISPONIBLE AHORA</div>
+      <div class="hero-amount" id="total-available">0,00 €</div>
+      <div class="hero-subtext" id="last-updated-str">Actualizado hoy</div>
+    </div>
+    <div class="liquidity-box">
+      <div class="liq-title" id="liquidity-title">LIQUIDEZ DE AGOSTO DE 2026</div>
+      <div class="liq-amount" id="liquidity-amount">0,00 €</div>
+    </div>
+  </div>
 
-<section class="card">
-<div class="cardtitle"><span id="currentTitle"></span><span style="color:var(--g)" id="currentCount"></span></div>
-<div id="currentList"></div><div class="total" id="currentTotal"></div>
-<div id="afterPending" class="hint" style="font-weight:400;margin-top:8px"></div>
-</section>
+  <!-- Mis Cuentas -->
+  <div class="card">
+    <div class="section-header">
+      <span class="section-title">MIS CUENTAS</span>
+      <span class="section-total" id="accounts-total-header">Total: 0,00 €</span>
+    </div>
+    <div id="accounts-list"></div>
+    <div class="rate-footnote" id="rate-footnote">Tipo de cambio COP: 1 € = 3.626,12 COP</div>
+  </div>
 
-<section class="card">
-<div class="cardtitle"><span id="nextTitle"></span></div>
-<div id="nextList" class="commitGrid"></div>
-<div class="nextSummary" id="nextTotal"></div>
-</section>
+  <!-- Action Buttons -->
+  <div class="action-grid">
+    <div class="btn-action btn-income" onclick="openTransactionModal('income')">
+      <div class="btn-icon icon-income-bg">+</div>
+      <div>
+        <div class="btn-text-title text-income">INGRESO</div>
+        <div class="btn-text-sub">Registrar un ingreso</div>
+      </div>
+    </div>
+    <div class="btn-action btn-expense" onclick="openTransactionModal('expense')">
+      <div class="btn-icon icon-expense-bg">+</div>
+      <div>
+        <div class="btn-text-title text-expense">GASTO</div>
+        <div class="btn-text-sub">Registrar un gasto</div>
+      </div>
+    </div>
+  </div>
 
-<div class="liquidityLine"><span id="liqTitle">LIQUIDEZ DEL MES</span><b id="liqAfter"></b></div>
-</div>
+  <!-- Pendiente Mes Actual -->
+  <div class="card">
+    <div class="section-header">
+      <span class="section-title" id="current-month-title">PENDIENTE — AGOSTO DE 2026</span>
+      <span class="section-total" id="current-month-count">0 pendientes</span>
+    </div>
+    <div id="current-month-content">
+      <div class="pending-status-text">Pendiente neto: <strong id="current-pending-net">≈ 0,00 €</strong></div>
+      <div class="pending-sub">Después de compromisos pendientes: <span id="after-pending-net">0,00 €</span></div>
+    </div>
+    <div id="current-month-grid" class="commitments-grid"></div>
+  </div>
 
-<div class="modal" id="modal">
-<div class="sheet">
-<div class="sheethead"><h2 id="modalTitle"></h2><button class="close" id="close">×</button></div>
-<div class="tabs"><button class="tab active" id="oneTab">Único</button><button class="tab" id="recTab">Recurrente</button></div>
-<div class="field"><label>Importe</label><input id="amount" inputmode="decimal" autocomplete="off" placeholder="0,00"></div>
-<div class="field"><label>Concepto</label><input id="concept" class="concept" autocomplete="off" placeholder="Ej. Mercadona"></div>
-<div class="field"><label>Cuenta</label><div id="accounts" class="accountChoices">
-<button type="button" class="acctChoice sel" data-account="W">W</button>
-<button type="button" class="acctChoice" data-account="€">€</button>
-<button type="button" class="acctChoice" data-account="BC">BC</button>
-<button type="button" class="acctChoice" data-account="N">N</button>
-<button type="button" class="acctChoice" data-account="O">O</button>
-</div></div>
-<div id="recFields" style="display:none"><label style="font-size:13px;font-weight:400;display:block;margin-bottom:7px">Día del mes</label><div class="days" id="days"></div><div class="note">Se repetirá cada mes en este día.</div></div>
-<button class="save" id="save"></button>
-<div class="keypad" id="keypad">
-<button class="key" data-k="1">1</button><button class="key" data-k="2">2</button><button class="key" data-k="3">3</button>
-<button class="key" data-k="4">4</button><button class="key" data-k="5">5</button><button class="key" data-k="6">6</button>
-<button class="key" data-k="7">7</button><button class="key" data-k="8">8</button><button class="key" data-k="9">9</button>
-<button class="key" data-k=",">,</button><button class="key zero" data-k="0">0</button><button class="key del" data-k="del">⌫</button>
-</div>
-</div></div>
+  <!-- Compromisos Mes Siguiente -->
+  <div class="card">
+    <div class="section-header">
+      <span class="section-title" id="next-month-title">COMPROMISOS — SETIEMBRE DE 2026</span>
+    </div>
+    <div class="commitments-grid" id="next-month-grid"></div>
+    <div class="comm-total-bar">Total: <span id="next-month-total">0,00 €</span></div>
+  </div>
 
-<script>
-const INITIAL=1650.68;
-const COP_EUR=3626.12;
-const USD_PER_EUR=1.1699;
-const STORAGE="misFinanzasStateFinalV4";
+  <!-- MODAL: REGISTRAR TRANSACCIÓN (INGRESO / GASTO) -->
+  <div class="modal-overlay" id="modal-transaction">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title" id="tx-modal-title">Registrar Movimiento</div>
+        <div class="modal-close" onclick="closeModal('modal-transaction')">&times;</div>
+      </div>
+      <input type="hidden" id="tx-type" value="expense">
+      <div class="form-group">
+        <label class="form-label">CONCEPTO</label>
+        <input type="text" id="tx-concept" class="form-input" placeholder="Ej. Mercadona, Alquiler...">
+      </div>
+      <div class="form-group" style="display:flex; gap:10px;">
+        <div style="flex:2;">
+          <label class="form-label">IMPORTE</label>
+          <input type="number" step="0.01" id="tx-amount" class="form-input" placeholder="0.00">
+        </div>
+        <div style="flex:1;">
+          <label class="form-label">MONEDA</label>
+          <select id="tx-currency" class="form-select">
+            <option value="EUR">EUR (€)</option>
+            <option value="USD">USD ($)</option>
+            <option value="COP">COP ($)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">CUENTA</label>
+        <div class="account-selector" id="tx-account-selector">
+          <div class="account-chip selected" onclick="selectChip(this, 'W')">W</div>
+          <div class="account-chip" onclick="selectChip(this, '€')">€</div>
+          <div class="account-chip" onclick="selectChip(this, 'BC')">BC</div>
+          <div class="account-chip" onclick="selectChip(this, 'N')">N</div>
+          <div class="account-chip" onclick="selectChip(this, 'O')">O</div>
+        </div>
+        <input type="hidden" id="tx-account" value="W">
+      </div>
+      <div class="form-group">
+        <label class="form-label">TIPO DE GASTO / INGRESO</label>
+        <select id="tx-recurrence-type" class="form-select" onchange="toggleDayField()">
+          <option value="single">Puntual / Único</option>
+          <option value="recurring">Recurrente Mensual</option>
+        </select>
+      </div>
+      <div class="form-group" id="day-field-group" style="display:none;">
+        <label class="form-label">DÍA DE PAGO CADA MES (1 - 31)</label>
+        <input type="number" id="tx-pay-day" class="form-input" min="1" max="31" value="1">
+      </div>
+      <button class="btn-submit" onclick="submitTransaction()">Guardar Movimiento</button>
+    </div>
+  </div>
 
-const defaultState={
- balance:INITIAL,
- accounts:{W:659.81,"€":565,BC:425.87,N:0,O:0},
- expenses:[],
- incomes:[],
- recurringExpenses:[
-  {id:"chatgpt",name:"ChatGPT",amount:8,currency:"USD",day:24,createdAt:"2026-08-01",paidMonths:{}},
-  {id:"apple",name:"Apple",amount:10,currency:"EUR",day:27,createdAt:"2026-08-01",paidMonths:{}},
-  {id:"vivienda",name:"Vivienda",amount:550,currency:"EUR",day:2,createdAt:"2026-08-01",paidMonths:{}},
-  {id:"digi",name:"Digi",amount:10,currency:"EUR",day:2,createdAt:"2026-08-01",paidMonths:{}},
-  {id:"tussam",name:"TUSSAM",amount:25,currency:"EUR",day:2,createdAt:"2026-08-01",paidMonths:{}},
-  {id:"basicfit",name:"Basic-Fit",amount:34.99,currency:"EUR",day:10,createdAt:"2026-08-01",paidMonths:{}},
-  {id:"spotify",name:"Spotify",amount:5.91,currency:"USD",day:18,createdAt:"2026-08-01",paidMonths:{}}
+  <!-- MODAL: EDITAR CUENTA -->
+  <div class="modal-overlay" id="modal-edit-account">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Editar Saldo de Cuenta</div>
+        <div class="modal-close" onclick="closeModal('modal-edit-account')">&times;</div>
+      </div>
+      <input type="hidden" id="edit-acc-id">
+      <div class="form-group">
+        <label class="form-label" id="edit-acc-name">Cuenta</label>
+        <input type="number" step="0.01" id="edit-acc-balance" class="form-input">
+      </div>
+      <button class="btn-submit" onclick="saveAccountBalance()">Actualizar Saldo</button>
+    </div>
+  </div>
 
-],
- recurringIncomes:[]
-};
+  <!-- MODAL: EDITAR / PAGAR COMPROMISO -->
+  <div class="modal-overlay" id="modal-commitment">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Detalle del Compromiso</div>
+        <div class="modal-close" onclick="closeModal('modal-commitment')">&times;</div>
+      </div>
+      <input type="hidden" id="comm-id">
+      <div class="form-group">
+        <label class="form-label">CONCEPTO</label>
+        <input type="text" id="comm-concept" class="form-input">
+      </div>
+      <div class="form-group" style="display:flex; gap:10px;">
+        <div style="flex:2;">
+          <label class="form-label">IMPORTE</label>
+          <input type="number" step="0.01" id="comm-amount" class="form-input">
+        </div>
+        <div style="flex:1;">
+          <label class="form-label">MONEDA</label>
+          <select id="comm-currency" class="form-select">
+            <option value="EUR">EUR (€)</option>
+            <option value="USD">USD ($)</option>
+            <option value="COP">COP ($)</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">DÍA DE PAGO</label>
+        <input type="number" id="comm-day" class="form-input" min="1" max="31">
+      </div>
+      <button class="btn-submit" onclick="payCommitmentNow()">Registrar como Pagado Hoy</button>
+      <button class="btn-submit btn-secondary" onclick="saveCommitmentChanges()">Guardar Cambios</button>
+      <button class="btn-submit btn-danger" onclick="cancelCommitmentRule()" style="margin-top:12px;">Eliminar Recurrencia Futura</button>
+    </div>
+  </div>
 
-function clone(x){return JSON.parse(JSON.stringify(x))}
-function loadState(){
- try{
-  const raw=localStorage.getItem(STORAGE);
-  if(raw){
-   const s=JSON.parse(raw);
-   if(s && typeof s.balance==="number" && Array.isArray(s.recurringExpenses) && Array.isArray(s.recurringIncomes)) return s;
-  }
- }catch(e){}
- return clone(defaultState);
-}
-let state=loadState();
-function normalizeState(){
- if(!state || typeof state!=="object") state=clone(defaultState);
- if(typeof state.balance!=="number") state.balance=INITIAL;
- if(!state.accounts || typeof state.accounts!=="object") state.accounts={W:659,"€":565,BC:440.21,N:0,O:0};
- for(const k of ["W","€","BC","N","O"]) if(typeof state.accounts[k]!=="number") state.accounts[k]=0;
- if(!Array.isArray(state.expenses)) state.expenses=[];
- if(!Array.isArray(state.incomes)) state.incomes=[];
- if(!Array.isArray(state.recurringExpenses)) state.recurringExpenses=[];
- if(!Array.isArray(state.recurringIncomes)) state.recurringIncomes=[];
- state.recurringExpenses.forEach(x=>{if(!x.paidMonths)x.paidMonths={};if(!x.account || !["W","€","BC","N","O"].includes(x.account))x.account="W"});
- state.recurringIncomes.forEach(x=>{if(!x.paidMonths)x.paidMonths={};if(!x.account || !["W","€","BC","N","O"].includes(x.account))x.account="N"});
- save();
-}
-normalizeState();
-function save(){localStorage.setItem(STORAGE,JSON.stringify(state))}
-function euro(n){return new Intl.NumberFormat("es-ES",{minimumFractionDigits:2,maximumFractionDigits:2}).format(n)+" €"}
-function toEUR(amount,currency){return currency==="USD"?amount/USD_PER_EUR:amount}
-function monthKey(d){return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")}
-function monthLabel(d){return d.toLocaleDateString("es-ES",{month:"long",year:"numeric"})}
-function monthStart(d){return new Date(d.getFullYear(),d.getMonth(),1)}
-function occurrenceDate(item,d){return new Date(d.getFullYear(),d.getMonth(),item.day)}
-function isPaid(item,m){return !!(item.paidMonths&&item.paidMonths[m])}
-function createdBeforeMonth(item,d){return new Date(item.createdAt||"2026-08-01")<=monthStart(d)}
+  <!-- MODAL: HISTORIAL -->
+  <div class="modal-overlay" id="modal-history">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Historial de Movimientos</div>
+        <div class="modal-close" onclick="closeModal('modal-history')">&times;</div>
+      </div>
+      <div id="history-list-content"></div>
+    </div>
+  </div>
 
-function render(){
- const now=new Date(), cur=monthStart(now), next=new Date(now.getFullYear(),now.getMonth()+1,1);
- document.getElementById("today").textContent=now.toLocaleDateString("es-ES",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
- document.getElementById("updated").textContent="Actualizado hoy, "+now.toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"});
- document.getElementById("balance").textContent=euro(state.balance);
- document.getElementById("accountsTotal").textContent="Total: "+euro(state.balance);
- document.getElementById("accW").textContent=euro(state.accounts.W);
- document.getElementById("accCash").textContent=euro(state.accounts["€"]);
- document.getElementById("accBC").textContent="≈ "+euro(state.accounts.BC);
- document.getElementById("accN").textContent=euro(state.accounts.N);
- document.getElementById("accO").textContent=euro(state.accounts.O);
- renderMonth("current",cur);
- renderMonth("next",next);
- renderLiquidity();
-}
+  <!-- MODAL: AJUSTES -->
+  <div class="modal-overlay" id="modal-settings">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">Configuración / Tipos de Cambio</div>
+        <div class="modal-close" onclick="closeModal('modal-settings')">&times;</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">TASA COP (1 EUR = X COP)</label>
+        <input type="number" step="0.01" id="setting-cop-rate" class="form-input">
+      </div>
+      <div class="form-group">
+        <label class="form-label">TASA USD (1 USD = X EUR)</label>
+        <input type="number" step="0.0001" id="setting-usd-rate" class="form-input">
+      </div>
+      <button class="btn-submit" onclick="saveSettings()">Guardar Tasas</button>
+    </div>
+  </div>
 
-function renderMonth(which,d){
- const list=document.getElementById(which==="current"?"currentList":"nextList");
- const total=which==="current"?document.getElementById("currentTotal"):null;
- const title=document.getElementById(which==="current"?"currentTitle":"nextTitle");
- const count=document.getElementById("currentCount");
- const m=monthKey(d); list.innerHTML="";
- let expenseTotal=0,incomeTotal=0,pending=0;
- const now=new Date(), isCurrent=which==="current";
- const expenses=state.recurringExpenses.filter(x=>createdBeforeMonth(x,d)).sort((a,b)=>a.day-b.day);
- const incomes=state.recurringIncomes.filter(x=>createdBeforeMonth(x,d)).sort((a,b)=>a.day-b.day);
- if(isCurrent){
-  expenses.filter(x=>!isPaid(x,m) && x.day>=now.getDate()).forEach(x=>{
-   const eur=toEUR(x.amount,x.currency); expenseTotal+=eur; pending++;
-   list.insertAdjacentHTML("beforeend",`<div class="row"><div class="day">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"})}</div><div><div class="name">${x.name}</div><div class="muted" style="font-size:11px">Pendiente</div></div><div class="money">${x.currency==="USD"?x.amount.toFixed(2)+" USD":euro(x.amount)}</div></div>`);
-  });
-  incomes.filter(x=>!isPaid(x,m) && x.day>=now.getDate()).forEach(x=>{
-   const eur=toEUR(x.amount,x.currency); incomeTotal+=eur;
-   list.insertAdjacentHTML("beforeend",`<div class="row"><div class="day">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"})}</div><div><div class="name">${x.name}</div><div class="muted positive">Ingreso previsto</div></div><div class="money positive">+ ${euro(x.amount)}</div></div>`);
-  });
-  title.textContent="PENDIENTE — "+monthLabel(d).toUpperCase();
-  count.textContent=pending+" pendiente"+(pending===1?"":"s");
-  total.innerHTML=`<span>Pendiente neto</span><span>≈ ${euro(expenseTotal-incomeTotal)}</span>`;
-  document.getElementById("afterPending").textContent=`Después de compromisos pendientes: ${euro(state.balance-expenseTotal+incomeTotal)}`;
- }else{
-  expenses.forEach(x=>{
-   expenseTotal+=toEUR(x.amount,x.currency);
-   list.insertAdjacentHTML("beforeend",`<div class="commitCard"><div class="commitDate">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"}).toUpperCase()}</div><div class="commitName">${x.name}</div><div class="commitAmount">${x.currency==="USD"?x.amount.toFixed(2)+" USD":euro(x.amount)}</div></div>`);
-  });
-  incomes.forEach(x=>{
-   incomeTotal+=toEUR(x.amount,x.currency);
-   list.insertAdjacentHTML("beforeend",`<div class="commitCard"><div class="commitDate">${String(x.day).padStart(2,"0")} ${d.toLocaleDateString("es-ES",{month:"short"}).toUpperCase()}</div><div class="commitName">${x.name}</div><div class="commitAmount positive">+ ${euro(x.amount)}</div></div>`);
-  });
-  title.textContent="COMPROMISOS — "+monthLabel(d).toUpperCase();
-  document.getElementById("nextTotal").textContent=`Total: ${euro(expenseTotal-incomeTotal)}`;
- }
-}
+  <script>
+    // --- ESTADO INICIAL ---
+    const DEFAULT_DATA = {
+      accounts: [
+        { id: "W", name: "Wise", sub: "Euro", balance: 659.81, currency: "EUR" },
+        { id: "€", name: "Efectivo", sub: "Cash", balance: 565.00, currency: "EUR" },
+        { id: "BC", name: "Bancolombia", sub: "Peso colombiano", balance: 1544333, currency: "COP" },
+        { id: "N", name: "Nómina", sub: "Ingresos", balance: 0.00, currency: "EUR" },
+        { id: "O", name: "Otros", sub: "Ingresos / salidas", balance: 0.00, currency: "EUR" }
+      ],
+      rates: {
+        COP_PER_EUR: 3626.12,
+        USD_PER_EUR: 0.92
+      },
+      recurring: [
+        { id: "rec_1", concept: "Vivienda", amount: 550.00, currency: "EUR", day: 2, accountId: "W", active: true },
+        { id: "rec_2", concept: "Digi", amount: 10.00, currency: "EUR", day: 2, accountId: "W", active: true },
+        { id: "rec_3", concept: "TUSSAM", amount: 25.00, currency: "EUR", day: 2, accountId: "W", active: true },
+        { id: "rec_4", concept: "Basic-Fit", amount: 34.99, currency: "EUR", day: 10, accountId: "W", active: true },
+        { id: "rec_5", concept: "Spotify", amount: 5.91, currency: "USD", day: 18, accountId: "W", active: true },
+        { id: "rec_6", concept: "ChatGPT", amount: 8.00, currency: "USD", day: 24, accountId: "W", active: true },
+        { id: "rec_7", concept: "Apple", amount: 10.00, currency: "EUR", day: 27, accountId: "W", active: true }
+      ],
+      history: []
+    };
 
-function markPaid(id,m){
- const item=state.recurringExpenses.find(x=>x.id===id);
- if(!item || isPaid(item,m)) return;
- const eur=toEUR(item.amount,item.currency);
- item.paidMonths=item.paidMonths||{};
- item.paidMonths[m]=true;
- state.balance-=eur;
- item.account=item.account||"W";
- state.accounts[item.account]-=eur;
- save();render();
-}
+    let appData = JSON.parse(localStorage.getItem("mis_finanzas_data")) || DEFAULT_DATA;
 
-function renderLiquidity(){
- const now=new Date(), m=monthKey(now);
- let pendingExpenses=0,pendingIncomes=0;
- state.recurringExpenses.forEach(x=>{if(createdBeforeMonth(x,now)&&!isPaid(x,m)&&x.day>=now.getDate())pendingExpenses+=toEUR(x.amount,x.currency)});
- state.recurringIncomes.forEach(x=>{if(createdBeforeMonth(x,now)&&!isPaid(x,m)&&x.day>=now.getDate())pendingIncomes+=toEUR(x.amount,x.currency)});
- document.getElementById("liqTitle").textContent="LIQUIDEZ DE "+monthLabel(now).toUpperCase();
- document.getElementById("liqAfter").textContent=euro(state.balance-pendingExpenses+pendingIncomes);
-}
+    function saveData() {
+      localStorage.setItem("mis_finanzas_data", JSON.stringify(appData));
+      renderApp();
+    }
 
-let type="expense",mode="one",selectedDay=new Date().getDate(),selectedAccount="W",saving=false;
-function openModal(kind){type=kind;resetForm();document.getElementById("modalTitle").textContent=kind==="expense"?"Nuevo gasto":"Nuevo ingreso";document.getElementById("modal").classList.add("open")}
-function closeModal(){document.getElementById("modal").classList.remove("open");saving=false;document.getElementById("save").disabled=false}
-function resetForm(){mode="one";selectedDay=new Date().getDate();selectedAccount="W";updateAccountButtons();document.getElementById("amount").value="";document.getElementById("concept").value="";setMode("one")}
-function setMode(m){mode=m;document.getElementById("oneTab").classList.toggle("active",m==="one");document.getElementById("recTab").classList.toggle("active",m==="rec");document.getElementById("recFields").style.display=m==="rec"?"block":"none";document.getElementById("save").textContent=type==="expense"?(m==="rec"?"Guardar gasto recurrente":"Guardar gasto"):(m==="rec"?"Guardar ingreso recurrente":"Guardar ingreso");renderDays()}
-function renderDays(){const d=document.getElementById("days");d.innerHTML="";for(let i=1;i<=31;i++){const b=document.createElement("button");b.type="button";b.className="daybtn"+(i===selectedDay?" sel":"");b.textContent=i;b.onclick=()=>{selectedDay=i;renderDays()};d.appendChild(b)}}
-function keypress(k){const a=document.getElementById("amount");if(k==="del"){a.value=a.value.slice(0,-1);return}if(k===","&&a.value.includes(","))return;if(a.value==="0"&&k!==",")a.value="";a.value+=k}
+    // --- CONVERSIÓN MONEDA ---
+    function convertToEUR(amount, currency) {
+      if (currency === "EUR") return amount;
+      if (currency === "COP") return amount / appData.rates.COP_PER_EUR;
+      if (currency === "USD") return amount * appData.rates.USD_PER_EUR;
+      return amount;
+    }
 
-document.getElementById("expenseBtn").onclick=()=>openModal("expense");
-document.getElementById("incomeBtn").onclick=()=>openModal("income");
-document.getElementById("close").onclick=closeModal;
-document.getElementById("oneTab").onclick=()=>setMode("one");
-document.getElementById("recTab").onclick=()=>setMode("rec");
-document.getElementById("keypad").addEventListener("click",e=>{if(e.target.dataset.k)keypress(e.target.dataset.k)});
-function updateAccountButtons(){document.querySelectorAll(".acctChoice").forEach(b=>b.classList.toggle("sel",b.dataset.account===selectedAccount))}
-document.getElementById("accounts").addEventListener("click",e=>{const b=e.target.closest(".acctChoice");if(!b)return;selectedAccount=b.dataset.account;updateAccountButtons()});
+    function formatCurrency(amount, currency = "EUR") {
+      if (currency === "COP") {
+        return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(amount) + " COP";
+      }
+      if (currency === "USD") {
+        return amount.toFixed(2) + " USD";
+      }
+      return amount.toLocaleString('es-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+    }
 
-document.getElementById("save").onclick=()=>{
- if(saving)return;
- const raw=document.getElementById("amount").value.trim();
- const amount=raw===""?0:parseFloat(raw.replace(/\./g,"").replace(",","."));
- const concept=document.getElementById("concept").value.trim();
- if(!Number.isFinite(amount)||amount<0){alert("Importe no válido.");return}
- if(!concept){alert("Introduce un concepto.");return}
- if(mode==="one" && amount<=0){alert("Introduce un importe mayor que 0.");return}
+    // --- CÁLCULO DE DISPONIBLE ---
+    function calculateTotalAvailable() {
+      return appData.accounts.reduce((sum, acc) => sum + convertToEUR(acc.balance, acc.currency), 0);
+    }
 
- saving=true; const btn=document.getElementById("save"); btn.disabled=true;
- if(mode==="one"){
-   if(type==="expense"){
-     state.balance-=amount;
-     state.accounts[selectedAccount]-=amount;
-     state.expenses.push({id:"e-"+Date.now(),date:new Date().toISOString(),amount,concept,account:selectedAccount});
-   }else{
-     state.balance+=amount;
-     state.accounts[selectedAccount]+=amount;
-     state.incomes.push({id:"i-"+Date.now(),date:new Date().toISOString(),amount,concept,account:selectedAccount});
-   }
- }else{
-   const item={id:(type==="expense"?"re-":"ri-")+Date.now(),name:concept,amount,currency:"EUR",day:selectedDay,createdAt:new Date().toISOString().slice(0,10),paidMonths:{}};
-   if(type==="expense"){
-     item.account=selectedAccount;
-     state.recurringExpenses.push(item);
-     if(amount>0){state.balance-=amount;state.accounts[selectedAccount]-=amount;item.paidMonths[monthKey(new Date())]=true;}
-   }else{
-     item.account=selectedAccount;
-     state.recurringIncomes.push(item);
-     if(amount>0){state.balance+=amount;state.accounts[selectedAccount]+=amount;item.paidMonths[monthKey(new Date())]=true;}
-   }
- }
- save();closeModal();render();
-};
+    // --- FECHAS Y MESES ---
+    const MONTH_NAMES = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 
-render();
-</script>
+    // --- RENDERIZADO PRINCIPAL ---
+    function renderApp() {
+      const now = new Date();
+      const currentDay = now.getDate();
+      const currentMonthIdx = now.getMonth();
+      const currentYear = now.getFullYear();
+      
+      const nextMonthIdx = (currentMonthIdx + 1) % 12;
+      const nextMonthYear = currentMonthIdx === 11 ? currentYear + 1 : currentYear;
+
+      // Actualizar Header
+      const daysOfWeek = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+      document.getElementById("current-date-str").innerText = `${daysOfWeek[now.getDay()]}, ${currentDay} de ${MONTH_NAMES[currentMonthIdx].toLowerCase()} de ${currentYear}`;
+      
+      // Total Disponible
+      const totalAvail = calculateTotalAvailable();
+      document.getElementById("total-available").innerText = formatCurrency(totalAvail, "EUR");
+      document.getElementById("accounts-total-header").innerText = "Total: " + formatCurrency(totalAvail, "EUR");
+      document.getElementById("rate-footnote").innerText = `Tipo de cambio COP: 1 € = ${appData.rates.COP_PER_EUR.toLocaleString('es-ES')} COP`;
+
+      // Render Cuentas
+      const accListEl = document.getElementById("accounts-list");
+      accListEl.innerHTML = "";
+      appData.accounts.forEach(acc => {
+        const item = document.createElement("div");
+        item.className = "account-item";
+        item.onclick = () => openEditAccountModal(acc.id);
+        
+        let convertedStr = "";
+        if (acc.currency === "COP") {
+          const inEur = convertToEUR(acc.balance, "COP");
+          convertedStr = `<div class="acc-converted">≈ ${formatCurrency(inEur, "EUR")}</div>`;
+        }
+        
+        item.innerHTML = `
+          <div>
+            <div class="acc-name">${acc.name}</div>
+            <div class="acc-sub">${acc.sub}</div>
+          </div>
+          <div class="acc-amount-container">
+            <div class="acc-amount">${formatCurrency(acc.balance, acc.currency)}</div>
+            ${convertedStr}
+          </div>
+        `;
+        accListEl.appendChild(item);
+      });
+
+      // Títulos de Meses
+      document.getElementById("current-month-title").innerText = `PENDIENTE — ${MONTH_NAMES[currentMonthIdx].toUpperCase()} DE ${currentYear}`;
+      document.getElementById("next-month-title").innerText = `COMPROMISOS — ${MONTH_NAMES[nextMonthIdx].toUpperCase()} DE ${nextMonthYear}`;
+      document.getElementById("liquidity-title").innerText = `LIQUIDEZ DE ${MONTH_NAMES[currentMonthIdx].toUpperCase()} DE ${currentYear}`;
+
+      // Filtrar compromisos activos
+      const activeRules = appData.recurring.filter(r => r.active);
+
+      // Compromisos pendientes mes actual (día >= día actual)
+      const currentPending = activeRules.filter(r => r.day >= currentDay);
+      const currentMonthGrid = document.getElementById("current-month-grid");
+      currentMonthGrid.innerHTML = "";
+
+      let pendingTotalEUR = 0;
+      currentPending.forEach(r => {
+        pendingTotalEUR += convertToEUR(r.amount, r.currency);
+        const card = createCommitmentCard(r, currentMonthIdx);
+        currentMonthGrid.appendChild(card);
+      });
+
+      document.getElementById("current-month-count").innerText = `${currentPending.length} pendientes`;
+      document.getElementById("current-pending-net").innerText = `≈ ${formatCurrency(pendingTotalEUR, "EUR")}`;
+      document.getElementById("after-pending-net").innerText = formatCurrency(totalAvail - pendingTotalEUR, "EUR");
+
+      // Compromisos mes siguiente
+      const nextMonthGrid = document.getElementById("next-month-grid");
+      nextMonthGrid.innerHTML = "";
+      let nextTotalEUR = 0;
+
+      activeRules.forEach(r => {
+        nextTotalEUR += convertToEUR(r.amount, r.currency);
+        const card = createCommitmentCard(r, nextMonthIdx);
+        nextMonthGrid.appendChild(card);
+      });
+
+      document.getElementById("next-month-total").innerText = formatCurrency(nextTotalEUR, "EUR");
+
+      // Liquidez
+      const liquidity = totalAvail - pendingTotalEUR;
+      document.getElementById("liquidity-amount").innerText = formatCurrency(liquidity, "EUR");
+    }
+
+    function createCommitmentCard(rule, monthIdx) {
+      const card = document.createElement("div");
+      card.className = "commitment-card";
+      card.onclick = () => openCommitmentModal(rule.id);
+
+      const dayStr = rule.day < 10 ? '0' + rule.day : rule.day;
+      const monthShort = MONTH_NAMES[monthIdx].substring(0, 3).toUpperCase();
+
+      card.innerHTML = `
+        <div class="comm-date">${dayStr} ${monthShort}</div>
+        <div class="comm-concept">${rule.concept}</div>
+        <div class="comm-amount">${formatCurrency(rule.amount, rule.currency)}</div>
+      `;
+      return card;
+    }
+
+    // --- MODALES Y ACCIONES ---
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+    }
+
+    function selectChip(el, accountId) {
+      const parent = el.parentElement;
+      parent.querySelectorAll('.account-chip').forEach(c => c.classList.remove('selected'));
+      el.classList.add('selected');
+      document.getElementById('tx-account').value = accountId;
+    }
+
+    function toggleDayField() {
+      const type = document.getElementById("tx-recurrence-type").value;
+      document.getElementById("day-field-group").style.display = type === "recurring" ? "block" : "none";
+    }
+
+    function openTransactionModal(type) {
+      document.getElementById("tx-type").value = type;
+      document.getElementById("tx-modal-title").innerText = type === "income" ? "Registrar Ingreso" : "Registrar Gasto";
+      document.getElementById("tx-concept").value = "";
+      document.getElementById("tx-amount").value = "";
+      document.getElementById("modal-transaction").classList.add("active");
+    }
+
+    function submitTransaction() {
+      const type = document.getElementById("tx-type").value;
+      const concept = document.getElementById("tx-concept").value.trim();
+      const amount = parseFloat(document.getElementById("tx-amount").value);
+      const currency = document.getElementById("tx-currency").value;
+      const accountId = document.getElementById("tx-account").value;
+      const recType = document.getElementById("tx-recurrence-type").value;
+      const payDay = parseInt(document.getElementById("tx-pay-day").value) || 1;
+
+      if (!concept || isNaN(amount) || amount <= 0) {
+        alert("Por favor introduce un concepto e importe válidos.");
+        return;
+      }
+
+      // 1. Ajustar Saldo de la Cuenta seleccionada
+      const acc = appData.accounts.find(a => a.id === accountId);
+      if (acc) {
+        if (type === "expense") {
+          acc.balance -= amount;
+        } else {
+          acc.balance += amount;
+        }
+      }
+
+      // 2. Registrar en Historial
+      const now = new Date();
+      appData.history.unshift({
+        id: "tx_" + Date.now(),
+        date: now.toISOString().split('T')[0],
+        concept: concept,
+        amount: amount,
+        currency: currency,
+        accountId: accountId,
+        type: type
+      });
+
+      // 3. Si es recurrente, verificar duplicados antes de crear la regla maestra
+      if (recType === "recurring") {
+        const existingRule = appData.recurring.find(r => 
+          r.active && 
+          r.concept.toLowerCase() === concept.toLowerCase() && 
+          r.currency === currency
+        );
+
+        if (!existingRule) {
+          appData.recurring.push({
+            id: "rec_" + Date.now(),
+            concept: concept,
+            amount: amount,
+            currency: currency,
+            day: payDay,
+            accountId: accountId,
+            active: true
+          });
+        }
+      }
+
+      closeModal("modal-transaction");
+      saveData();
+    }
+
+    // Editar Cuentas
+    function openEditAccountModal(id) {
+      const acc = appData.accounts.find(a => a.id === id);
+      if (!acc) return;
+      document.getElementById("edit-acc-id").value = acc.id;
+      document.getElementById("edit-acc-name").innerText = `Editar saldo de ${acc.name} (${acc.currency})`;
+      document.getElementById("edit-acc-balance").value = acc.balance;
+      document.getElementById("modal-edit-account").classList.add("active");
+    }
+
+    function saveAccountBalance() {
+      const id = document.getElementById("edit-acc-id").value;
+      const newBalance = parseFloat(document.getElementById("edit-acc-balance").value);
+      if (isNaN(newBalance)) return;
+
+      const acc = appData.accounts.find(a => a.id === id);
+      if (acc) {
+        acc.balance = newBalance;
+        saveData();
+      }
+      closeModal("modal-edit-account");
+    }
+
+    // Gestionar Compromisos
+    function openCommitmentModal(id) {
+      const rule = appData.recurring.find(r => r.id === id);
+      if (!rule) return;
+      document.getElementById("comm-id").value = rule.id;
+      document.getElementById("comm-concept").value = rule.concept;
+      document.getElementById("comm-amount").value = rule.amount;
+      document.getElementById("comm-currency").value = rule.currency;
+      document.getElementById("comm-day").value = rule.day;
+      document.getElementById("modal-commitment").classList.add("active");
+    }
+
+    function payCommitmentNow() {
+      const id = document.getElementById("comm-id").value;
+      const rule = appData.recurring.find(r => r.id === id);
+      if (!rule) return;
+
+      // Descontar de la cuenta asociada (o Wise por defecto)
+      const acc = appData.accounts.find(a => a.id === rule.accountId) || appData.accounts[0];
+      acc.balance -= rule.amount;
+
+      // Registrar Historial
+      appData.history.unshift({
+        id: "tx_" + Date.now(),
+        date: new Date().toISOString().split('T')[0],
+        concept: rule.concept,
+        amount: rule.amount,
+        currency: rule.currency,
+        accountId: acc.id,
+        type: "expense"
+      });
+
+      closeModal("modal-commitment");
+      saveData();
+    }
+
+    function saveCommitmentChanges() {
+      const id = document.getElementById("comm-id").value;
+      const rule = appData.recurring.find(r => r.id === id);
+      if (!rule) return;
+
+      rule.concept = document.getElementById("comm-concept").value.trim();
+      rule.amount = parseFloat(document.getElementById("comm-amount").value) || rule.amount;
+      rule.currency = document.getElementById("comm-currency").value;
+      rule.day = parseInt(document.getElementById("comm-day").value) || rule.day;
+
+      closeModal("modal-commitment");
+      saveData();
+    }
+
+    function cancelCommitmentRule() {
+      const id = document.getElementById("comm-id").value;
+      const rule = appData.recurring.find(r => r.id === id);
+      if (rule) {
+        rule.active = false;
+        closeModal("modal-commitment");
+        saveData();
+      }
+    }
+
+    // Historial
+    function openHistoryModal() {
+      const listEl = document.getElementById("history-list-content");
+      listEl.innerHTML = "";
+      if (appData.history.length === 0) {
+        listEl.innerHTML = "<div style='text-align:center; color:#8e8e93; padding:20px;'>No hay movimientos registrados.</div>";
+      } else {
+        appData.history.forEach(item => {
+          const div = document.createElement("div");
+          div.className = "history-item";
+          const isInc = item.type === "income";
+          div.innerHTML = `
+            <div>
+              <div class="hist-desc">${item.concept}</div>
+              <div class="hist-date">${item.date} • Cuenta ${item.accountId}</div>
+            </div>
+            <div class="${isInc ? 'hist-amount-inc' : 'hist-amount-exp'}">
+              ${isInc ? '+' : '-'}${formatCurrency(item.amount, item.currency)}
+            </div>
+          `;
+          listEl.appendChild(div);
+        });
+      }
+      document.getElementById("modal-history").classList.add("active");
+    }
+
+    // Ajustes
+    function openSettingsModal() {
+      document.getElementById("setting-cop-rate").value = appData.rates.COP_PER_EUR;
+      document.getElementById("setting-usd-rate").value = appData.rates.USD_PER_EUR;
+      document.getElementById("modal-settings").classList.add("active");
+    }
+
+    function saveSettings() {
+      const cop = parseFloat(document.getElementById("setting-cop-rate").value);
+      const usd = parseFloat(document.getElementById("setting-usd-rate").value);
+      if (!isNaN(cop) && cop > 0) appData.rates.COP_PER_EUR = cop;
+      if (!isNaN(usd) && usd > 0) appData.rates.USD_PER_EUR = usd;
+      closeModal("modal-settings");
+      saveData();
+    }
+
+    // Register Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+
+    // Inicializar
+    renderApp();
+  </script>
 </body>
 </html>
