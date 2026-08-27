@@ -517,6 +517,34 @@
 
     let appData = JSON.parse(localStorage.getItem("mis_finanzas_data")) || DEFAULT_DATA;
 
+    // --- Migración de datos (ajuste único de saldos reales, 27-ago-2026) ---
+    // Se aplica una sola vez (controlado por dataVersion) para no pisar cambios futuros
+    // ni el historial ya registrado.
+    if (!appData.dataVersion || appData.dataVersion < 2) {
+      const accOverrides = { "W": 639.27, "€": 552.00, "BC": 1379450, "N": 0.00, "O": 0.00 };
+      appData.accounts.forEach(a => {
+        if (accOverrides.hasOwnProperty(a.id)) a.balance = accOverrides[a.id];
+      });
+
+      const vivienda = appData.recurring.find(r => r.concept === "Vivienda");
+      if (vivienda) vivienda.amount = 430;
+
+      if (!appData.recurring.find(r => r.concept === "Depósito fianza")) {
+        appData.recurring.push({
+          id: "rec_deposito_fianza",
+          concept: "Depósito fianza",
+          amount: 430,
+          currency: "EUR",
+          day: 1,
+          accountId: "W",
+          active: true,
+          oneTime: true
+        });
+      }
+
+      appData.dataVersion = 2;
+    }
+
     function saveData() {
       localStorage.setItem("mis_finanzas_data", JSON.stringify(appData));
       renderApp();
@@ -528,6 +556,15 @@
       if (currency === "COP") return amount / appData.rates.COP_PER_EUR;
       if (currency === "USD") return amount * appData.rates.USD_PER_EUR;
       return amount;
+    }
+
+    function convertAmount(amount, fromCurrency, toCurrency) {
+      if (fromCurrency === toCurrency) return amount;
+      const eur = convertToEUR(amount, fromCurrency);
+      if (toCurrency === "EUR") return eur;
+      if (toCurrency === "COP") return eur * appData.rates.COP_PER_EUR;
+      if (toCurrency === "USD") return eur / appData.rates.USD_PER_EUR;
+      return eur;
     }
 
     function formatCurrency(amount, currency = "EUR") {
@@ -598,13 +635,14 @@
       // Títulos de Meses
       document.getElementById("current-month-title").innerText = `PENDIENTE — ${MONTH_NAMES[currentMonthIdx].toUpperCase()} DE ${currentYear}`;
       document.getElementById("next-month-title").innerText = `COMPROMISOS — ${MONTH_NAMES[nextMonthIdx].toUpperCase()} DE ${nextMonthYear}`;
-      document.getElementById("liquidity-title").innerText = `LIQUIDEZ DE ${MONTH_NAMES[currentMonthIdx].toUpperCase()} DE ${currentYear}`;
+      document.getElementById("liquidity-title").innerText = `LIQUIDEZ PROYECTADA (${MONTH_NAMES[currentMonthIdx].substring(0,3).toUpperCase()}+${MONTH_NAMES[nextMonthIdx].substring(0,3).toUpperCase()})`;
 
       // Filtrar compromisos activos
       const activeRules = appData.recurring.filter(r => r.active);
 
-      // Compromisos pendientes mes actual (día >= día actual)
-      const currentPending = activeRules.filter(r => r.day >= currentDay);
+      // Compromisos pendientes mes actual (día >= día actual, y no pagados ya este mes)
+      const currentPeriod = `${currentYear}-${String(currentMonthIdx + 1).padStart(2, '0')}`;
+      const currentPending = activeRules.filter(r => r.day >= currentDay && !(r.paidPeriods || []).includes(currentPeriod));
       const currentMonthGrid = document.getElementById("current-month-grid");
       currentMonthGrid.innerHTML = "";
 
@@ -632,8 +670,9 @@
 
       document.getElementById("next-month-total").innerText = formatCurrency(nextTotalEUR, "EUR");
 
-      // Liquidez
-      const liquidity = totalAvail - pendingTotalEUR;
+      // Liquidez: disponible ahora, menos pendientes de este mes y también los compromisos
+      // recurrentes del mes siguiente completo, para ver una proyección real.
+      const liquidity = totalAvail - pendingTotalEUR - nextTotalEUR;
       document.getElementById("liquidity-amount").innerText = formatCurrency(liquidity, "EUR");
     }
 
@@ -692,13 +731,14 @@
         return;
       }
 
-      // 1. Ajustar Saldo de la Cuenta seleccionada
+      // 1. Ajustar Saldo de la Cuenta seleccionada (convirtiendo a la moneda de la cuenta)
       const acc = appData.accounts.find(a => a.id === accountId);
       if (acc) {
+        const amountInAccCurrency = convertAmount(amount, currency, acc.currency);
         if (type === "expense") {
-          acc.balance -= amount;
+          acc.balance -= amountInAccCurrency;
         } else {
-          acc.balance += amount;
+          acc.balance += amountInAccCurrency;
         }
       }
 
@@ -779,9 +819,18 @@
       const rule = appData.recurring.find(r => r.id === id);
       if (!rule) return;
 
-      // Descontar de la cuenta asociada (o Wise por defecto)
+      // Descontar de la cuenta asociada (o Wise por defecto), convirtiendo a la moneda de la cuenta
       const acc = appData.accounts.find(a => a.id === rule.accountId) || appData.accounts[0];
-      acc.balance -= rule.amount;
+      acc.balance -= convertAmount(rule.amount, rule.currency, acc.currency);
+
+      // Marcar este periodo (mes) como pagado para que ya no aparezca como pendiente
+      const nowPay = new Date();
+      const payPeriod = `${nowPay.getFullYear()}-${String(nowPay.getMonth() + 1).padStart(2, '0')}`;
+      if (!rule.paidPeriods) rule.paidPeriods = [];
+      if (!rule.paidPeriods.includes(payPeriod)) rule.paidPeriods.push(payPeriod);
+
+      // Si es un pago único (no recurrente), se desactiva por completo tras pagarse
+      if (rule.oneTime) rule.active = false;
 
       // Registrar Historial
       appData.history.unshift({
